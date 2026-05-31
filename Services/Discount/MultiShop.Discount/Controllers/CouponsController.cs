@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Discount.Dtos.CouponDtos;
 using MultiShop.Discount.Services.CouponServices;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.Discount.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CouponsController : ControllerBase

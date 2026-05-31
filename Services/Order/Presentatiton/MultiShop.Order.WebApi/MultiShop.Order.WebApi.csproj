@@ -8,8 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.27" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.27">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Services\Order\Core\MultiShop.Order.Application\MultiShop.Order.Application.csproj" />
-    <ProjectReference Include="..\..\..\Services\Order\Core\MultiShop.Order.Domain\MultiShop.Order.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Services\Order\Infrastructure\MultiShop.Order.Persistence\MultiShop.Order.Persistence.csproj" />
+    <ProjectReference Include="..\..\Core\MultiShop.Order.Application\MultiShop.Order.Application.csproj" />
+    <ProjectReference Include="..\..\Core\MultiShop.Order.Domain\MultiShop.Order.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MultiShop.Order.Persistence\MultiShop.Order.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
