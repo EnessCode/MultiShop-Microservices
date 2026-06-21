@@ -1,0 +1,16 @@
+﻿.cursor-pointer {
+    cursor: pointer;
+}
+
+.mb-2\.5 {
+    margin-bottom: 0.6rem !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.tracking-wide {
+    letter-spacing: 0.03em;
+}
