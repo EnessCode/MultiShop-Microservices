@@ -1,0 +1,70 @@
+﻿@model List<ResultCategoryDto>
+
+@{
+    ViewData["Title"] = "Kategori Listesi";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h4>Kategori Yönetim Paneli</h4>
+                    <a href="/Admin/Category/CreateCategory" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Yeni Kategori Ekle
+                    </a>
+                </div>
+
+                <p>MultiShop platformunda yer alan kategorilerin güncel listesi.</p>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px; text-align: center;">#</th>
+                                    <th>Kategori Adı</th>
+                                    <th style="width: 100px; text-align: center;">Sil</th>
+                                    <th style="width: 100px; text-align: center;">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row" style="text-align: center;">@count</th>
+
+                                        <td>@item.Name</td>
+
+                                        <td style="text-align: center;">
+                                            <a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </td>
+
+                                        <td style="text-align: center;">
+                                            <a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        Sistemde henüz bir kategori bulunmuyor veya veriler yüklenemedi.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
-	[Authorize]
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CategoriesController : ControllerBase

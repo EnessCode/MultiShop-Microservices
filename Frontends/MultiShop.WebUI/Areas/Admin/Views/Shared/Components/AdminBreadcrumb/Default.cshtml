@@ -1,0 +1,16 @@
+﻿<section class="content-header" style="margin-bottom: 10px; padding-bottom: 5px;">
+    <h3 style="margin: 0 0 5px 0; font-weight: 600; color: #1e1e2d; font-size: 22px;">@ViewBag.v2</h3>
+    <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0; font-size: 13px;">
+        <li><a href="/Admin/Dashboard/Index" style="color: #4361ee; text-decoration: none;"><i class="fa fa-home"></i> Ana Sayfa</a></li>
+
+        @if (ViewBag.v1 != null)
+        {
+            <li><a href="@(ViewBag.v1_url ?? "#")" style="color: #5e6e82; text-decoration: none;">@ViewBag.v1</a></li>
+        }
+
+        @if (ViewBag.v2 != null)
+        {
+            <li class="active" style="color: #a1a5b7;">@ViewBag.v2</li>
+        }
+    </ol>
+</section>

@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+    @await Component.InvokeAsync("AdminHead")
+
+<body class="sidebar-mini">
+    <div class="wrapper">
+
+        @await Component.InvokeAsync("AdminHeader")
+
+        @await Component.InvokeAsync("AdminSidebar")
+
+        <div class="content-wrapper">
+            <div class="container-fluid" style="padding: 15px 20px;">
+                @await Component.InvokeAsync("AdminBreadcrumb")
+
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+
+    @await Component.InvokeAsync("AdminScript")
+
+</body>
+</html>
