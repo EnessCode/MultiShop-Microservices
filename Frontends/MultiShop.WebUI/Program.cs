@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient("MultiShopApi", client =>
 {
-	client.BaseAddress = new Uri(builder.Configuration["ApiSettings:CategoryApi"]);
+	client.BaseAddress = new Uri(builder.Configuration["ApiSettings:CatalogApi"]);
 });
 builder.Services.AddControllersWithViews();
 

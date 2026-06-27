@@ -1,0 +1,94 @@
+﻿@model List<ResultProductWithCategoryDto>
+
+@{
+    ViewData["Title"] = "Ürün Listesi (Kategorili)";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h4 style="font-weight: 600; color: #1e1e2d;">Ürün Yönetim Paneli</h4>
+                    <a href="/Admin/Product/CreateProduct" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Yeni Ürün Ekle
+                    </a>
+                </div>
+
+                <p style="color: #5e6e82; font-size: 14px;">MultiShop platformunda yer alan ürünlerin kategorileri, güncel fiyatları ve listesi.</p>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px; text-align: center;">#</th>
+                                    <th style="width: 80px; text-align: center;">Görsel</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Kategori</th>
+                                    <th style="width: 150px; text-align: right;">Fiyat</th>
+                                    <th style="width: 100px; text-align: center;">Sil</th>
+                                    <th style="width: 100px; text-align: center;">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row" style="text-align: center;">@count</th>
+
+                                        <td style="text-align: center;">
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl" alt="@item.Name" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #edf2f9;" />
+                                            }
+                                            else
+                                            {
+                                                <div style="width: 40px; height: 40px; background-color: #f8f9fa; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #edf2f9;">
+                                                    <i class="fa fa-image text-muted" style="font-size: 16px;"></i>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td style="font-weight: 500; color: #333;">@item.Name</td>
+
+                                        <td style="color: #4361ee; font-weight: 500;">
+                                            @(item.Category != null ? item.Category.Name : "Kategorisiz")
+                                        </td>
+
+                                        <td style="text-align: right; font-weight: 600; color: #2ecc71;">
+                                            @item.Price.ToString("C2")
+                                        </td>
+
+                                        <td style="text-align: center;">
+                                            <a href="/Admin/Product/DeleteProduct/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('@item.Name isimli ürünü silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </td>
+
+                                        <td style="text-align: center;">
+                                            <a href="/Admin/Product/UpdateProduct/@item.Id" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        Sistemde henüz kayıtlı bir ürün bulunmuyor veya ürün listesi yüklenemedi.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

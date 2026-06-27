@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
-	[Authorize]
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductsController : ControllerBase
@@ -47,11 +47,18 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("Ürün başarıyla güncellendi.");
 		}
 
-		[HttpDelete] 
+		[HttpDelete]
 		public async Task<IActionResult> DeleteProduct(string id)
 		{
 			await _productService.DeleteProductAsync(id);
 			return Ok("Ürün başarıyla silindi.");
+		}
+
+		[HttpGet("ProductListWithCategory")]
+		public async Task<IActionResult> ProductListWithCategory()
+		{
+			var values = await _productService.GetProductWithCategoryAsync();
+			return Ok(values);
 		}
 	}
 }
