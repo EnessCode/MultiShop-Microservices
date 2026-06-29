@@ -1,0 +1,75 @@
+﻿@model UpdateFeatureDto
+
+@{
+    ViewData["Title"] = "Özellik Güncelle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili özelliğin başlık, açıklama ve ikon/görsel verilerini aşağıdan düzenleyebilirsiniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/Feature/UpdateFeature">
+
+                    <input type="hidden" asp-for="Id" value="@Model?.Id" />
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" value="@Model?.Title" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Açıklama (Detay)</label>
+                        <textarea class="form-control" asp-for="Description" rows="3" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;">@Model?.Description</textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">İkon (Görsel URL veya İkon Sınıfı)</label>
+                        <input type="text" class="form-control" asp-for="Icon" id="IconUrl" oninput="updatePreview()" value="@Model?.Icon" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+
+                        <div style="margin-top: 15px;">
+                            <p style="font-size: 13px; color: #6c757d; margin-bottom: 5px;"><i class="fa fa-image"></i> Görsel Ön İzleme</p>
+                            <img id="imagePreview" src="" alt="Önizleme" style="max-width: 100px; height: auto; object-fit: contain; border-radius: 6px; border: 1px dashed #ced4da; display: none; padding: 4px;" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Yayın Durumu</label>
+                        <select class="form-control" asp-for="IsActive" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none; height: auto;">
+                            <option value="true">Aktif (Vitrinde Göster)</option>
+                            <option value="false">Pasif (Gizle)</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i> Değişiklikleri Kaydet</button>
+                        <a href="/Admin/Feature/Index" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updatePreview() {
+        var url = document.getElementById('IconUrl').value;
+        var preview = document.getElementById('imagePreview');
+        if (url && (url.startsWith('http') || url.startsWith('/'))) {
+            preview.src = url;
+            preview.style.display = 'block';
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    }
+
+    window.onload = function() {
+        updatePreview();
+    };
+</script>

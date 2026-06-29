@@ -1,4 +1,6 @@
-﻿<div class="container-fluid bg-dark mb-4 sticky-top shadow-sm">
+﻿@model List<ResultCategoryDto>
+
+<div class="container-fluid bg-dark mb-4 sticky-top shadow-sm">
 	<div class="row px-xl-5 align-items-center">
 		<div class="col-lg-3 d-none d-lg-block">
 			<a class="btn d-flex align-items-center justify-content-between bg-primary w-100 rounded-top-4" data-bs-toggle="collapse" href="#navbar-vertical" style="height: 60px; padding: 0 25px; transition: all 0.3s ease;">
@@ -7,22 +9,10 @@
 			</a>
 			<nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-white shadow-lg rounded-bottom-4 overflow-hidden" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
 				<div class="navbar-nav w-100 border-0">
-					<div class="nav-item dropdown dropright">
-						<a href="#" class="nav-link dropdown-toggle py-2 px-4 d-flex justify-content-between align-items-center border-bottom-0" data-bs-toggle="dropdown">
-							<span><i class="fas fa-shirt me-2 text-muted" style="width: 20px;"></i>Giyim</span>
-							<i class="fas fa-angle-right text-muted" style="font-size: 0.8rem;"></i>
-						</a>
-						<div class="dropdown-menu position-absolute border-0 shadow-sm rounded-3 m-0 py-2">
-							<a href="/Shop/Category/erkek-giyim" class="dropdown-item py-2 px-4">Erkek Giyim</a>
-							<a href="/Shop/Category/kadin-giyim" class="dropdown-item py-2 px-4">Kadın Giyim</a>
-							<a href="/Shop/Category/bebek-giyim" class="dropdown-item py-2 px-4">Bebek Giyim</a>
-						</div>
-					</div>
-					<a href="/Shop/Category/gomlek" class="nav-item nav-link py-2 px-4"><i class="fas fa-tag me-2 text-muted" style="width: 20px;"></i>Gömlek</a>
-					<a href="/Shop/Category/pantolon" class="nav-item nav-link py-2 px-4"><i class="fas fa-tag me-2 text-muted" style="width: 20px;"></i>Kot Pantolon</a>
-					<a href="/Shop/Category/spor" class="nav-item nav-link py-2 px-4"><i class="fas fa-running me-2 text-muted" style="width: 20px;"></i>Spor Giyim</a>
-					<a href="/Shop/Category/ceket" class="nav-item nav-link py-2 px-4"><i class="fas fa-user-tie me-2 text-muted" style="width: 20px;"></i>Ceket & Mont</a>
-					<a href="/Shop/Category/ayakkabi" class="nav-item nav-link py-2 px-4"><i class="fas fa-shoe-prints me-2 text-muted" style="width: 20px;"></i>Ayakkabı</a>
+					@foreach(var item in Model)
+					{
+						<a href="/ProductList/Index/@item.Id" class="nav-item nav-link py-2 px-4"><i class="fas fa-tag me-2 text-muted" style="width: 20px;"></i>@item.Name</a>
+					}
 				</div>
 			</nav>
 		</div>

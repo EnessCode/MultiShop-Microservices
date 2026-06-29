@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Services.ProductDetailServices; 
-using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductDetailsController : ControllerBase
@@ -20,7 +20,7 @@ namespace MultiShop.Catalog.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ProductDetailList()
 		{
-			var values = await _productDetailService.GetAllProductDetailAsync();
+			var values = await _productDetailService.GetAllProductDetailsAsync();
 			return Ok(values);
 		}
 
@@ -45,7 +45,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("Ürün detayı başarıyla güncellendi.");
 		}
 
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProductDetail(string id)
 		{
 			await _productDetailService.DeleteProductDetailAsync(id);

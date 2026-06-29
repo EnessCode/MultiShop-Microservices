@@ -1,0 +1,96 @@
+﻿@model List<ResultFeatureSliderDto>
+
+@{
+    ViewData["Title"] = "Öne Çıkan Görseller";
+    int count = 0;
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">MultiShop ana sayfasında yer alan dönen vitrin görsellerini ve kampanyaları buradan yönetebilirsiniz.</p>
+                    <a href="/Admin/FeatureSlider/CreateFeatureSlider" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Yeni Görsel Ekle
+                    </a>
+                </div>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped" id="sliderTable" data-sort-asc="false">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px; text-align: center;">#</th>
+                                    <th style="width: 120px; text-align: center;">Görsel</th>
+                                    <th>Başlık</th>
+                                    <th class="sortable-header" style="width: 120px; text-align: center;" onclick="sortTableByStatus('sliderTable')">
+                                        Durum <i class="fa fa-sort"></i>
+                                    </th>
+                                    <th style="width: 100px; text-align: center;">Sil</th>
+                                    <th style="width: 100px; text-align: center;">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderByDescending(x => x.IsActive))
+                                {
+                                    count++;
+                                    <tr data-status="@(item.IsActive ? 1 : 0)">
+                                        <th scope="row" style="text-align: center; vertical-align: middle;">@count</th>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl" alt="@item.Title" style="width: 80px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #edf2f9;" />
+                                            }
+                                            else
+                                            {
+                                                <div style="width: 80px; height: 45px; background-color: #f8f9fa; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #edf2f9;">
+                                                    <i class="fa fa-image text-muted" style="font-size: 16px;"></i>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td style="font-weight: 500; color: #333; vertical-align: middle;">@item.Title</td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="label" style="background-color: #2ecc71; color: white; padding: 6px 12px; border-radius: 4px; display: inline-block; font-weight: 500;">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label" style="background-color: #e74c3c; color: white; padding: 6px 12px; border-radius: 4px; display: inline-block; font-weight: 500;">Pasif</span>
+                                            }
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/FeatureSlider/DeleteFeatureSlider/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Bu slider görselini silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/FeatureSlider/UpdateFeatureSlider/@item.Id" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        Sistemde henüz kayıtlı bir slider görseli bulunmuyor.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

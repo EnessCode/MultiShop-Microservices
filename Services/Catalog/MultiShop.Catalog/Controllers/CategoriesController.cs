@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Services.CategoryServices;
-using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
@@ -22,7 +20,7 @@ namespace MultiShop.Catalog.Controllers
 		[HttpGet]
 		public async Task<IActionResult> CategoryList()
 		{
-			var values = await _categoryService.GetAllCategoryAsync();
+			var values = await _categoryService.GetAllCategoriesAsync();
 			return Ok(values);
 		}
 
@@ -47,7 +45,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("Kategori başarıyla güncellendi.");
 		}
 
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCategory(string id)
 		{
 			await _categoryService.DeleteCategoryAsync(id);

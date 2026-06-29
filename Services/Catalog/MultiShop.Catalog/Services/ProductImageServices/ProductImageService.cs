@@ -11,11 +11,11 @@ namespace MultiShop.Catalog.Services.ProductImageServices
 		private readonly IMongoCollection<ProductImage> _productImageCollection;
 		private readonly IMapper _mapper;
 
-		public ProductImageService(IMapper mapper, IDatabaseSettings _databaseSettings)
+		public ProductImageService(IMapper mapper, IDatabaseSettings databaseSettings)
 		{
-			var client = new MongoClient(_databaseSettings.ConnectionString);
-			var database = client.GetDatabase(_databaseSettings.DatabaseName);
-			_productImageCollection = database.GetCollection<ProductImage>(_databaseSettings.ProductImageCollectionName);
+			var client = new MongoClient(databaseSettings.ConnectionString);
+			var database = client.GetDatabase(databaseSettings.DatabaseName);
+			_productImageCollection = database.GetCollection<ProductImage>(databaseSettings.ProductImageCollectionName);
 			_mapper = mapper;
 		}
 
@@ -30,7 +30,7 @@ namespace MultiShop.Catalog.Services.ProductImageServices
 			await _productImageCollection.DeleteOneAsync(x => x.Id == id);
 		}
 
-		public async Task<List<ResultProductImageDto>> GetAllProductImageAsync()
+		public async Task<List<ResultProductImageDto>> GetAllProductImagesAsync()
 		{
 			var values = await _productImageCollection.Find(x => true).ToListAsync();
 			return _mapper.Map<List<ResultProductImageDto>>(values);

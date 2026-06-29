@@ -35,11 +35,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			if (responseMessage.IsSuccessStatusCode)
 			{
 				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
+				var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
 				return View(values);
 			}
 
-			return View(new List<ResultProductDto>());
+			return View(new List<ResultProductWithCategoryDto>());
 		}
 
 		[HttpGet]
@@ -78,7 +78,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			var responseMessage = await client.PostAsync("Products", stringContent);
 			if (responseMessage.IsSuccessStatusCode)
 			{
-				return RedirectToAction("Index", "Product", new { area = "Admin" });
+				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 			}
 
 			var categoryResponse = await client.GetAsync("Categories");
@@ -124,7 +124,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 				var values = JsonConvert.DeserializeObject<UpdateProductDto>(jsonData);
 				return View(values);
 			}
-			return RedirectToAction("Index", "Product", new { area = "Admin" });
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
 
 		[HttpPost]
@@ -137,7 +137,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			var responseMessage = await client.PutAsync("Products", stringContent);
 			if (responseMessage.IsSuccessStatusCode)
 			{
-				return RedirectToAction("Index", "Product", new { area = "Admin" });
+				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 			}
 			return View(updateProductDto);
 		}
@@ -145,13 +145,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteProduct(string id)
 		{
 			var client = _httpClientFactory.CreateClient("MultiShopApi");
-			var responseMessage = await client.DeleteAsync("Products?id=" + id);
+			var responseMessage = await client.DeleteAsync("Products/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)
 			{
-				return RedirectToAction("Index", "Product", new { area = "Admin" });
+				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 			}
-			return RedirectToAction("Index", "Product", new { area = "Admin" });
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
 
 		[HttpGet]
@@ -160,7 +160,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			SetBreadcrumb("Ürün Listesi");
 
 			var client = _httpClientFactory.CreateClient("MultiShopApi");
-			var responseMessage = await client.GetAsync("Products/ProductListWithCategory");
+			var responseMessage = await client.GetAsync("Products/with-category");
 
 			if (responseMessage.IsSuccessStatusCode)
 			{
@@ -169,7 +169,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 				return View(values);
 			}
 
-			return View(new List<ResultProductDto>());
+			return View(new List<ResultProductWithCategoryDto>());
 		}
 	}
 }

@@ -1,26 +1,16 @@
-﻿<div class="container-fluid py-4 mb-5">
+﻿@model List<ResultBrandDto>
+
+<div class="container-fluid py-4 mb-5">
     <div class="row px-xl-5">
         <div class="col">
             <div class="bg-white border rounded-4 p-4 shadow-sm">
                 <div class="owl-carousel vendor-carousel d-flex align-items-center">
+                    @foreach (var item in Model.Where(x => x.IsActive))
+                    {
                     <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
+                        <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
                     </div>
-                    <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
-                    </div>
-                    <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" alt="Adidas" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
-                    </div>
-                    <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
-                    </div>
-                    <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/ASUS_Logo.svg" alt="Asus" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
-                    </div>
-                    <div class="vendor-logo-box px-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Xiaomi_logo_%282021-%29.svg" alt="Xiaomi" class="img-fluid opacity-75 hover-opacity-100" style="max-height: 45px; object-fit: contain;">
-                    </div>
+                    }
                 </div>
             </div>
         </div>

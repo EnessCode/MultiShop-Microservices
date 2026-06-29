@@ -1,0 +1,47 @@
+﻿@model CreateAboutDto
+
+@{
+    ViewData["Title"] = "Yeni Hakkımda Ekle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Sisteme eklenecek yeni hakkımızda ve iletişim bilgilerini giriniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/About/CreateAbout">
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Hakkımızda Açıklaması</label>
+                        <textarea class="form-control" asp-for="Description" rows="4" required placeholder="Firmanız hakkında kısa bilgi..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Açık Adres</label>
+                        <input type="text" class="form-control" asp-for="Address" required placeholder="Örn: Levent, Şişli / İstanbul" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">E-Posta Adresi</label>
+                        <input type="email" class="form-control" asp-for="Email" required placeholder="Örn: info@multishop.com" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Telefon Numarası</label>
+                        <input type="text" class="form-control" asp-for="Phone" required placeholder="Örn: 0212 123 45 67" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Bilgileri Kaydet</button>
+                        <a href="/Admin/About/Index" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

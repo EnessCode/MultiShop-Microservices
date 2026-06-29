@@ -11,11 +11,11 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
 		private readonly IMongoCollection<ProductDetail> _productDetailCollection;
 		private readonly IMapper _mapper;
 
-		public ProductDetailService(IMapper mapper, IDatabaseSettings _databaseSettings)
+		public ProductDetailService(IMapper mapper, IDatabaseSettings databaseSettings)
 		{
-			var client = new MongoClient(_databaseSettings.ConnectionString);
-			var database = client.GetDatabase(_databaseSettings.DatabaseName);
-			_productDetailCollection = database.GetCollection<ProductDetail>(_databaseSettings.ProductDetailCollectionName);
+			var client = new MongoClient(databaseSettings.ConnectionString);
+			var database = client.GetDatabase(databaseSettings.DatabaseName);
+			_productDetailCollection = database.GetCollection<ProductDetail>(databaseSettings.ProductDetailCollectionName);
 			_mapper = mapper;
 		}
 
@@ -30,7 +30,7 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
 			await _productDetailCollection.DeleteOneAsync(x => x.Id == id);
 		}
 
-		public async Task<List<ResultProductDetailDto>> GetAllProductDetailAsync()
+		public async Task<List<ResultProductDetailDto>> GetAllProductDetailsAsync()
 		{
 			var values = await _productDetailCollection.Find(x => true).ToListAsync();
 			return _mapper.Map<List<ResultProductDetailDto>>(values);

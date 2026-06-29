@@ -12,12 +12,12 @@ namespace MultiShop.Catalog.Services.ProductServices
 		private readonly IMongoCollection<Category> _categoryCollection;
 		private readonly IMapper _mapper;
 
-		public ProductService(IMapper mapper, IDatabaseSettings _databaseSettings)
+		public ProductService(IMapper mapper, IDatabaseSettings databaseSettings)
 		{
-			var client = new MongoClient(_databaseSettings.ConnectionString);
-			var database = client.GetDatabase(_databaseSettings.DatabaseName);
-			_productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
-			_categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+			var client = new MongoClient(databaseSettings.ConnectionString);
+			var database = client.GetDatabase(databaseSettings.DatabaseName);
+			_productCollection = database.GetCollection<Product>(databaseSettings.ProductCollectionName);
+			_categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
 			_mapper = mapper;
 		}
 
@@ -32,7 +32,7 @@ namespace MultiShop.Catalog.Services.ProductServices
 			await _productCollection.DeleteOneAsync(x => x.Id == id);
 		}
 
-		public async Task<List<ResultProductDto>> GetAllProductAsync()
+		public async Task<List<ResultProductDto>> GetAllProductsAsync()
 		{
 			var values = await _productCollection.Find(x => true).ToListAsync();
 			return _mapper.Map<List<ResultProductDto>>(values);
@@ -44,7 +44,17 @@ namespace MultiShop.Catalog.Services.ProductServices
 			return _mapper.Map<GetProductByIdDto>(value);
 		}
 
-		public async Task<List<ResultProductWithCategoryDto>> GetProductWithCategoryAsync()
+		public async Task<List<ResultProductWithCategoryDto>> GetProductsByCategoryIdAsync(string categoryId)
+		{
+			var values = await _productCollection.Find(x => x.CategoryId == categoryId).ToListAsync();
+			foreach (var item in values)
+			{
+				item.Category = await _categoryCollection.Find<Category>(x => x.Id == item.CategoryId).FirstAsync();
+			}
+			return _mapper.Map<List<ResultProductWithCategoryDto>>(values);
+		}
+
+		public async Task<List<ResultProductWithCategoryDto>> GetProductsWithCategoryAsync()
 		{
 			var values = await _productCollection.Find(x => true).ToListAsync();
 			foreach (var item in values)

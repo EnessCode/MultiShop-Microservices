@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Services.ProductServices;
-using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
@@ -22,7 +20,7 @@ namespace MultiShop.Catalog.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ProductList()
 		{
-			var values = await _productService.GetAllProductAsync();
+			var values = await _productService.GetAllProductsAsync();
 			return Ok(values);
 		}
 
@@ -47,17 +45,25 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("Ürün başarıyla güncellendi.");
 		}
 
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProduct(string id)
 		{
 			await _productService.DeleteProductAsync(id);
 			return Ok("Ürün başarıyla silindi.");
 		}
 
-		[HttpGet("ProductListWithCategory")]
+		[HttpGet("with-category")]
 		public async Task<IActionResult> ProductListWithCategory()
 		{
-			var values = await _productService.GetProductWithCategoryAsync();
+			var values = await _productService.GetProductsWithCategoryAsync();
+			return Ok(values);
+
+		}
+
+		[HttpGet("category/{categoryId}")]
+		public async Task<IActionResult> ProductsByCategoryId(string categoryId)
+		{
+			var values = await _productService.GetProductsByCategoryIdAsync(categoryId);
 			return Ok(values);
 		}
 	}

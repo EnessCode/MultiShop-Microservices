@@ -1,0 +1,92 @@
+﻿@model List<ResultAboutDto>
+
+@{
+    ViewData["Title"] = "Hakkımda Yönetimi";
+    int count = 0;
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">
+                        Sitenizin "Hakkımızda" ve iletişim bölümlerinde yer alan genel bilgilerinizi buradan yönetebilirsiniz.
+                    </p>
+
+                    @* Eğer veri yoksa aktif buton, veri varsa inaktif (disabled) buton gösteriliyor *@
+                    @if (Model == null || Model.Count == 0)
+                    {
+                        <a href="/Admin/About/CreateAbout" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Yeni Hakkımda Ekle
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" disabled style="cursor: not-allowed; opacity: 0.6;" title="Sistemde zaten bir kayıt mevcut.">
+                            <i class="fa fa-plus"></i> Yeni Hakkımda Ekle
+                        </button>
+                    }
+                </div>
+
+                @* Sistem notu sadece veri girişi yapılmışsa (buton inaktifken) çıkıyor *@
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="alert alert-info" role="alert" style="border-radius: 6px; border-left: 4px solid #b8daff; background-color: #e8f4fd; color: #0056b3; font-size: 13px; margin-bottom: 20px; padding: 10px 15px;">
+                        <i class="fa fa-info-circle" style="font-size: 14px; margin-right: 5px;"></i>
+                        <strong>Sistem Notu:</strong> Hakkımızda bölümü için yalnızca <strong>bir adet</strong> veri girişi yapılabilir. Bilgilerinizi değiştirmek için aşağıdaki tablodan <strong>Güncelle</strong> butonunu kullanabilirsiniz.
+                    </div>
+
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped" id="aboutTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px; text-align: center;">#</th>
+                                    <th>Açıklama</th>
+                                    <th>Adres</th>
+                                    <th>E-Posta</th>
+                                    <th>Telefon</th>
+                                    <th style="width: 100px; text-align: center;">Sil</th>
+                                    <th style="width: 100px; text-align: center;">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row" style="text-align: center; vertical-align: middle;">@count</th>
+                                        <td style="font-weight: 600; color: #333; vertical-align: middle;">
+                                            @(item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description)
+                                        </td>
+                                        <td style="vertical-align: middle;">@item.Address</td>
+                                        <td style="vertical-align: middle;">@item.Email</td>
+                                        <td style="vertical-align: middle;">@item.Phone</td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/About/DeleteAbout/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Bu hakkımda bilgisini silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/About/UpdateAbout/@item.Id" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        Sistemde henüz kayıtlı bir "Hakkımda" bilgisi bulunmuyor. Eklemek için sağ üstteki butonu kullanabilirsiniz.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

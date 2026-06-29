@@ -11,11 +11,11 @@ namespace MultiShop.Catalog.Services.CategoryServices
 		private readonly IMongoCollection<Category> _categoryCollection;
 		private readonly IMapper _mapper;
 
-		public CategoryService(IMapper mapper, IDatabaseSettings _databaseSettings)
+		public CategoryService(IMapper mapper, IDatabaseSettings databaseSettings)
 		{
-			var client = new MongoClient(_databaseSettings.ConnectionString);
-			var database = client.GetDatabase(_databaseSettings.DatabaseName);
-			_categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+			var client = new MongoClient(databaseSettings.ConnectionString);
+			var database = client.GetDatabase(databaseSettings.DatabaseName);
+			_categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
 			_mapper = mapper;
 		}
 
@@ -30,7 +30,7 @@ namespace MultiShop.Catalog.Services.CategoryServices
 			await _categoryCollection.DeleteOneAsync(x => x.Id == id);
 		}
 
-		public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
+		public async Task<List<ResultCategoryDto>> GetAllCategoriesAsync()
 		{
 			var values = await _categoryCollection.Find(x => true).ToListAsync();
 			return _mapper.Map<List<ResultCategoryDto>>(values);

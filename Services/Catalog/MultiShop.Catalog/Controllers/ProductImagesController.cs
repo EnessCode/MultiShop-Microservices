@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
 using MultiShop.Catalog.Services.ProductImageServices;
-using System.Threading.Tasks;
 
 namespace MultiShop.Catalog.Controllers
 {
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductImagesController : ControllerBase
@@ -20,7 +20,7 @@ namespace MultiShop.Catalog.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ProductImageList()
 		{
-			var values = await _productImageService.GetAllProductImageAsync();
+			var values = await _productImageService.GetAllProductImagesAsync();
 			return Ok(values);
 		}
 
@@ -45,7 +45,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("Ürün görselleri başarıyla güncellendi.");
 		}
 
-		[HttpDelete] 
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProductImage(string id)
 		{
 			await _productImageService.DeleteProductImageAsync(id);

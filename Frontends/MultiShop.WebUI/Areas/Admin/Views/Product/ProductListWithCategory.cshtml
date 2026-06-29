@@ -5,19 +5,17 @@
     int count = 0;
 }
 
-<section class="content container-fluid">
+<section class="content container-fluid" style="padding: 0;">
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h4 style="font-weight: 600; color: #1e1e2d;">Ürün Yönetim Paneli</h4>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">MultiShop platformunda yer alan ürünlerin kategorileri, güncel fiyatları ve listesi.</p>
                     <a href="/Admin/Product/CreateProduct" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Yeni Ürün Ekle
                     </a>
                 </div>
-
-                <p style="color: #5e6e82; font-size: 14px;">MultiShop platformunda yer alan ürünlerin kategorileri, güncel fiyatları ve listesi.</p>
 
                 @if (Model != null && Model.Count > 0)
                 {
@@ -39,9 +37,9 @@
                                 {
                                     count++;
                                     <tr>
-                                        <th scope="row" style="text-align: center;">@count</th>
+                                        <th scope="row" style="text-align: center; vertical-align: middle;">@count</th>
 
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center; vertical-align: middle;">
                                             @if (!string.IsNullOrEmpty(item.ImageUrl))
                                             {
                                                 <img src="@item.ImageUrl" alt="@item.Name" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #edf2f9;" />
@@ -54,23 +52,29 @@
                                             }
                                         </td>
 
-                                        <td style="font-weight: 500; color: #333;">@item.Name</td>
+                                        <td style="font-weight: 500; color: #333; vertical-align: middle;">@item.Name</td>
 
-                                        <td style="color: #4361ee; font-weight: 500;">
+                                        <td style="color: #4361ee; font-weight: 500; vertical-align: middle;">
                                             @(item.Category != null ? item.Category.Name : "Kategorisiz")
                                         </td>
 
-                                        <td style="text-align: right; font-weight: 600; color: #2ecc71;">
-                                            @item.Price.ToString("C2")
+                                        <td style="text-align: right; vertical-align: middle;">
+                                            <span style="font-weight: 600; color: #2ecc71; display: block;">@item.Price.ToString("C2")</span>
+
+                                            @if (item.OldPrice.HasValue && item.OldPrice > item.Price)
+                                            {
+                                                <small style="text-decoration: line-through; color: #95a5a6;">@item.OldPrice.Value.ToString("C2")</small>
+                                                <span class="badge bg-danger ms-1" style="font-size: 0.75em; padding: 0.25em 0.4em;">%@item.DiscountPercentage</span>
+                                            }
                                         </td>
 
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center; vertical-align: middle;">
                                             <a href="/Admin/Product/DeleteProduct/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('@item.Name isimli ürünü silmek istediğinize emin misiniz?');">
                                                 <i class="fa fa-trash"></i> Sil
                                             </a>
                                         </td>
 
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center; vertical-align: middle;">
                                             <a href="/Admin/Product/UpdateProduct/@item.Id" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-edit"></i> Güncelle
                                             </a>

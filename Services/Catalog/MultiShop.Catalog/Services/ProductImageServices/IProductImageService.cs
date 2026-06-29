@@ -4,7 +4,7 @@ namespace MultiShop.Catalog.Services.ProductImageServices
 {
 	public interface IProductImageService
 	{
-		Task<List<ResultProductImageDto>> GetAllProductImageAsync();
+		Task<List<ResultProductImageDto>> GetAllProductImagesAsync();
 		Task<GetProductImageByIdDto> GetProductImageByIdAsync(string id);
 		Task CreateProductImageAsync(CreateProductImageDto createProductImageDto);
 		Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto);

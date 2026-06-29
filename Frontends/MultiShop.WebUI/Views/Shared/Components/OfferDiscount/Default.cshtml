@@ -1,47 +1,39 @@
-﻿<div class="container-fluid pt-4 pb-3">
-    <div class="row px-xl-5">
-        <div class="col-md-6 mb-4">
-            <div class="position-relative rounded-4 overflow-hidden shadow-sm mid-banner" style="height: 260px;">
-                <img class="img-fluid w-100 h-100 banner-img position-absolute top-0 start-0" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop" alt="Sezon Modası" style="object-fit: cover; z-index: 1;">
+﻿@model List<ResultOfferDiscountDto>
 
-                <div class="position-absolute top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-start justify-content-center p-5 bg-dark bg-opacity-50 text-white" style="z-index: 2;">
-                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-2 fw-bold">BÜYÜK FIRSAT</span>
-                    <h3 class="fw-bold mb-2 text-white">Giyim Koleksiyonlarında %20 İndirim</h3>
-                    <p class="text-white-50 small mb-4 d-none d-sm-block">Tarzınızı en yeni trendlerle güncelleyin, sepette ekstra fırsatları kaçırmayın.</p>
-                    <a href="/Shop" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm transition-up">Tarzını Keşfet</a>
-                </div>
-            </div>
-        </div>
+<div class="container-fluid pt-4 pb-3">
+	<div class="row px-xl-5">
+		@foreach (var item in Model.Where(x => x.IsActive).OrderByDescending(x => x.Id).Take(2))
+		{
+			<div class="col-md-6 mb-4">
+				<div class="position-relative rounded-4 overflow-hidden shadow-sm mid-banner" style="height: 260px;">
+					<img class="img-fluid w-100 h-100 banner-img position-absolute top-0 start-0" src="@item.ImageUrl" alt="Sezon Modası" style="object-fit: cover; z-index: 1;">
 
-        <div class="col-md-6 mb-4">
-            <div class="position-relative rounded-4 overflow-hidden shadow-sm mid-banner" style="height: 260px;">
-                <img class="img-fluid w-100 h-100 banner-img position-absolute top-0 start-0" src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?q=80&w=800&auto=format&fit=crop" alt="Akıllı Teknolojiler" style="object-fit: cover; z-index: 1;">
-
-                <div class="position-absolute top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-start justify-content-center p-5 bg-dark bg-opacity-50 text-white" style="z-index: 2;">
-                    <span class="badge bg-danger rounded-pill px-3 py-2 mb-2 fw-bold">TEKNOLOJİ GÜNLERİ</span>
-                    <h3 class="fw-bold mb-2 text-white">Seçili Bilgisayarlarda %15 İndirim</h3>
-                    <p class="text-white-50 small mb-4 d-none d-sm-block">İş, oyun ve eğlence için en güçlü bilgisayarlar şimdi özel lansman fiyatlarıyla.</p>
-                    <a href="/Shop" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm transition-up">İncelemeye Başla</a>
-                </div>
-            </div>
-        </div>
-    </div>
+					<div class="position-absolute top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-start justify-content-center p-5 bg-dark bg-opacity-50 text-white" style="z-index: 2;">
+						<span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-2 fw-bold">@item.Label</span>
+						<h3 class="fw-bold mb-2 text-white">@item.Title</h3>
+						<p class="text-white-50 small mb-4 d-none d-sm-block">@item.Description.</p>
+						<a href="/Shop" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm transition-up">İncelemeye başla</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
 </div>
 
 <style>
-    .mid-banner .banner-img {
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+	.mid-banner .banner-img {
+		transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-    .mid-banner:hover .banner-img {
-        transform: scale(1.05);
-    }
+	.mid-banner:hover .banner-img {
+		transform: scale(1.05);
+	}
 
-    .transition-up {
-        transition: all 0.3s ease;
-    }
+	.transition-up {
+		transition: all 0.3s ease;
+	}
 
-        .transition-up:hover {
-            transform: translateY(-2px);
-        }
+		.transition-up:hover {
+			transform: translateY(-2px);
+		}
 </style>

@@ -4,14 +4,13 @@
     ViewData["Title"] = "Ürün Güncelle";
 }
 
-<section class="content container-fluid">
+<section class="content container-fluid" style="padding: 0;">
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
 
-                <div style="margin-bottom: 20px;">
-                    <h4 style="font-weight: 600; color: #1e1e2d;">Ürün Güncelle</h4>
-                    <p style="color: #5e6e82; font-size: 14px;">Seçili ürünün fiyat, görsel, açıklama ve kategori bilgilerini aşağıdan düzenleyebilirsiniz.</p>
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili ürünün fiyat, görsel, açıklama ve kategori bilgilerini aşağıdan düzenleyebilirsiniz.</p>
                 </div>
 
                 <form method="post" action="/Admin/Product/UpdateProduct">
@@ -24,13 +23,23 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Fiyat (₺)</label>
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Satış Fiyatı (₺)</label>
                         <input type="text" class="form-control" asp-for="Price" name="Price" value="@Model?.Price" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
                     </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Eski Fiyat (₺) - <small class="text-muted">İndirim yoksa boş bırakın</small></label>
+                        <input type="text" class="form-control" asp-for="OldPrice" name="OldPrice" value="@Model?.OldPrice" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
                         <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Görsel URL</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" name="ImageUrl" value="@Model?.ImageUrl" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                        <input type="text" class="form-control" asp-for="ImageUrl" name="ImageUrl" id="ImageUrl" oninput="updatePreview()" value="@Model?.ImageUrl" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+
+                        <div style="margin-top: 15px;">
+                            <p style="font-size: 13px; color: #6c757d; margin-bottom: 5px;"><i class="fa fa-image"></i> Görsel Ön İzleme</p>
+                            <img id="imagePreview" src="" alt="Önizleme" style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px dashed #ced4da; display: none; padding: 4px;" />
+                        </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">
@@ -47,7 +56,7 @@
 
                     <div style="margin-top: 30px;">
                         <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i> Değişiklikleri Kaydet</button>
-                        <a href="/Admin/Product/Index" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                        <a href="/Admin/Product/ProductListWithCategory" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
                     </div>
                 </form>
 
@@ -55,3 +64,21 @@
         </div>
     </div>
 </section>
+
+<script>
+    function updatePreview() {
+        var url = document.getElementById('ImageUrl').value;
+        var preview = document.getElementById('imagePreview');
+        if (url) {
+            preview.src = url;
+            preview.style.display = 'block';
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    }
+
+    window.onload = function() {
+        updatePreview();
+    };
+</script>

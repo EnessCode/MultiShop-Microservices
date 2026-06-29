@@ -4,14 +4,13 @@
     ViewData["Title"] = "Kategori Güncelle";
 }
 
-<section class="content container-fluid">
+<section class="content container-fluid" style="padding: 0;">
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
 
-                <div style="margin-bottom: 20px;">
-                    <h4 style="font-weight: 600; color: #1e1e2d;">Kategori Güncelle</h4>
-                    <p style="color: #5e6e82; font-size: 14px;">Seçili kategorinin bilgilerini aşağıdan düzenleyebilirsiniz.</p>
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili kategorinin bilgilerini aşağıdan düzenleyebilirsiniz.</p>
                 </div>
 
                 <form method="post" action="/Admin/Category/UpdateCategory">
@@ -21,6 +20,19 @@
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Kategori Adı</label>
                         <input type="text" class="form-control" asp-for="Name" name="Name" value="@Model?.Name" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Görsel URL</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" name="ImageUrl" value="@Model?.ImageUrl" id="ImageUrl" oninput="updatePreview()" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+
+                        <div style="margin-top: 15px;">
+                            <p style="font-size: 13px; color: #6c757d; margin-bottom: 5px;"><i class="fa fa-image"></i> Görsel Ön İzleme</p>
+                            <img id="imagePreview"
+                                 src="@Model?.ImageUrl"
+                                 alt="Önizleme"
+                                 style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 6px; border: 1px dashed #ced4da; display: @(string.IsNullOrEmpty(Model?.ImageUrl) ? "none" : "block"); padding: 4px;" />
+                        </div>
                     </div>
 
                     <div style="margin-top: 30px;">
@@ -33,3 +45,17 @@
         </div>
     </div>
 </section>
+
+<script>
+    function updatePreview() {
+        var url = document.getElementById('ImageUrl').value;
+        var preview = document.getElementById('imagePreview');
+        if (url) {
+            preview.src = url;
+            preview.style.display = 'block';
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    }
+</script>

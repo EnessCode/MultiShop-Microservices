@@ -1,0 +1,113 @@
+﻿@model List<ResultOfferDiscountDto>
+
+@{
+    ViewData["Title"] = "Geniş Kampanya Blokları";
+    int count = 0;
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Ürün listelerinin alt kısmında yan yana iki büyük yatay blok halinde listelenen geniş kampanya alanlarını buradan yönetebilirsiniz.</p>
+                    <a href="/Admin/OfferDiscount/CreateOfferDiscount" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Yeni Kampanya Bloğu Ekle
+                    </a>
+                </div>
+
+                <div class="alert alert-info" role="alert" style="border-radius: 6px; border-left: 4px solid #b8daff; background-color: #e8f4fd; color: #0056b3; font-size: 13px; margin-bottom: 20px; padding: 10px 15px;">
+                    <i class="fa fa-info-circle" style="font-size: 14px; margin-right: 5px;"></i>
+                    <strong>Sistem Notu:</strong> Tasarım gereği, web sitesinde aynı anda <strong>en fazla 2 adet aktif</strong> geniş kampanya bloğu listelenmektedir. Eğer 2'den fazla veriyi "Aktif" yaparsanız, arayüzde her zaman <u>en son eklenen güncel 2 blok</u> görüntülenecektir.
+                </div>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped" id="offerTable" data-sort-asc="false">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px; text-align: center;">#</th>
+                                    <th style="width: 120px; text-align: center;">Arka Plan Görseli</th>
+                                    <th style="width: 150px;">Vurgu Etiketi (Sarı Şerit)</th>
+                                    <th>Kampanya Başlığı</th>
+                                    <th>Açıklama Metni</th>
+
+                                    <th class="sortable-header" style="width: 80px; text-align: center;" onclick="sortTableByStatus('offerTable')">
+                                        Durum <i class="fa fa-sort"></i>
+                                    </th>
+
+                                    <th style="width: 90px; text-align: center;">Sil</th>
+                                    <th style="width: 100px; text-align: center;">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderByDescending(x => x.IsActive))
+                                {
+                                    count++;
+                                    <tr data-status="@(item.IsActive ? 1 : 0)">
+                                        <th scope="row" style="text-align: center; vertical-align: middle;">@count</th>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl" alt="@item.Title" style="width: 100px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #edf2f9;" />
+                                            }
+                                            else
+                                            {
+                                                <div style="width: 100px; height: 50px; background-color: #f8f9fa; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #edf2f9;">
+                                                    <i class="fa fa-image text-muted" style="font-size: 16px;"></i>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td style="vertical-align: middle;">
+                                            <span class="badge" style="background-color: #f39c12; color: #fff; padding: 5px 10px;">@item.Label</span>
+                                        </td>
+
+                                        <td style="font-weight: 600; color: #333; vertical-align: middle;">@item.Title</td>
+
+                                        <td style="color: #5e6e82; vertical-align: middle; font-size: 13px;">
+                                            @(item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description)
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="badge" style="background-color: #28a745; padding: 6px 12px; border-radius: 4px;">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge" style="background-color: #dc3545; padding: 6px 12px; border-radius: 4px;">Pasif</span>
+                                            }
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/OfferDiscount/DeleteOfferDiscount/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Bu kampanya bloğunu silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/OfferDiscount/UpdateOfferDiscount/@item.Id" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        Sistemde henüz kayıtlı bir geniş kampanya bloğu bulunmuyor.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

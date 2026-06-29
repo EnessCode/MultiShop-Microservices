@@ -1,0 +1,49 @@
+﻿@model UpdateAboutDto
+
+@{
+    ViewData["Title"] = "Hakkımda Güncelle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Mevcut hakkımızda bilgilerini aşağıdan düzenleyebilirsiniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/About/UpdateAbout">
+
+                    <input type="hidden" asp-for="Id" value="@Model?.Id" />
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Hakkımızda Açıklaması</label>
+                        <textarea class="form-control" asp-for="Description" rows="4" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;">@Model?.Description</textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Açık Adres</label>
+                        <input type="text" class="form-control" asp-for="Address" value="@Model?.Address" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">E-Posta Adresi</label>
+                        <input type="email" class="form-control" asp-for="Email" value="@Model?.Email" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Telefon Numarası</label>
+                        <input type="text" class="form-control" asp-for="Phone" value="@Model?.Phone" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i> Değişiklikleri Kaydet</button>
+                        <a href="/Admin/About/Index" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

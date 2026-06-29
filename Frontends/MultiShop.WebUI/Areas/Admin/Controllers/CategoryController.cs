@@ -97,7 +97,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteCategory(string id)
 		{
 			var client = _httpClientFactory.CreateClient("MultiShopApi");
-			var responseMessage = await client.DeleteAsync("Categories?id=" + id);
+			var responseMessage = await client.DeleteAsync("Categories/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)
 			{
