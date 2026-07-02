@@ -28,6 +28,8 @@
                                     <th>Ürün Adı</th>
                                     <th>Kategori</th>
                                     <th style="width: 150px; text-align: right;">Fiyat</th>
+                                    <th style="width: 110px; text-align: center;">Görseller</th>
+                                    <th style="width: 100px; text-align: center;">Detay</th>
                                     <th style="width: 100px; text-align: center;">Sil</th>
                                     <th style="width: 100px; text-align: center;">Güncelle</th>
                                 </tr>
@@ -66,6 +68,18 @@
                                                 <small style="text-decoration: line-through; color: #95a5a6;">@item.OldPrice.Value.ToString("C2")</small>
                                                 <span class="badge bg-danger ms-1" style="font-size: 0.75em; padding: 0.25em 0.4em;">%@item.DiscountPercentage</span>
                                             }
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/ProductImage/ProductImageDetail?productId=@item.Id" class="btn btn-info btn-sm" style="color:white;">
+                                                <i class="fa fa-images"></i> Görseller
+                                            </a>
+                                        </td>
+
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <a href="/Admin/ProductDetail/UpdateProductDetail/@item.Id" class="btn btn-sm" style="background-color: #6c757d; border-color: #6c757d; color: white;">
+                                                <i class="fa fa-info-circle"></i> Detay
+                                            </a>
                                         </td>
 
                                         <td style="text-align: center; vertical-align: middle;">

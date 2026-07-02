@@ -1,0 +1,93 @@
+﻿@model MultiShop.DtoLayer.Dtos.CatalogDtos.ProductImageDtos.CreateProductImageDto
+
+@{
+    ViewData["Title"] = "Yeni Görsel Ekle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili ürüne ait galeri görsellerini eklemek için aşağıdaki alanlara resim bağlantılarını (URL) giriniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/ProductImage/CreateProductImage">
+
+                    <input type="hidden" asp-for="ProductId" name="ProductId" value="@Model?.ProductId" />
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Görsel URL'leri</label>
+
+                        <div id="url-container">
+                            <div style="margin-bottom: 10px;">
+                                <input type="text" class="form-control image-url-input" name="Images" oninput="updateAllPreviews()" placeholder="1. Görsel URL'si..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-info" onclick="addUrlInput()" style="margin-top: 5px; border-radius: 4px;">
+                            <i class="fa fa-plus"></i> Yeni URL Satırı Ekle
+                        </button>
+
+                        <div style="margin-top: 25px;">
+                            <p style="font-size: 13px; color: #6c757d; margin-bottom: 10px;"><i class="fa fa-images"></i> Görsel Ön İzlemeleri</p>
+                            <div id="preview-container" style="display: flex; flex-wrap: wrap; gap: 10px; min-height: 120px; padding: 10px; border: 1px dashed #ced4da; border-radius: 6px; background: #f8f9fa;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Görselleri Kaydet</button>
+                        <a href="/Admin/ProductImage/ProductImageDetail?productId=@Model?.ProductId" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updateAllPreviews() {
+        var container = document.getElementById('preview-container');
+        container.innerHTML = '';
+
+        var inputs = document.querySelectorAll('.image-url-input');
+        inputs.forEach(function(input) {
+            var url = input.value.trim();
+            if (url) {
+                var img = document.createElement('img');
+                img.src = url;
+                img.style.width = '120px';
+                img.style.height = '120px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '6px';
+                img.style.border = '1px solid #dee2e6';
+                img.style.backgroundColor = '#fff';
+                img.style.padding = '2px';
+                container.appendChild(img);
+            }
+        });
+    }
+
+    function addUrlInput() {
+        var container = document.getElementById('url-container');
+        var div = document.createElement('div');
+        div.style.marginBottom = '10px';
+
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'form-control image-url-input';
+        input.name = 'Images'; 
+        input.placeholder = 'Yeni Görsel URL\'si...';
+        input.style.borderRadius = '6px';
+        input.style.border = '1px solid #edf2f9';
+        input.style.padding = '10px 15px';
+        input.style.boxShadow = 'none';
+        input.oninput = updateAllPreviews;
+
+        div.appendChild(input);
+        container.appendChild(div);
+    }
+</script>

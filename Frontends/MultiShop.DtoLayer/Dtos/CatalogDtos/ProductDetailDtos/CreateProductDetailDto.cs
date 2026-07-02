@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDetailDtos
+{
+	public class CreateProductDetailDto
+	{
+		public string Description { get; set; }
+		public string Information { get; set; }
+		public string ProductId { get; set; }
+	}
+}

@@ -9,5 +9,6 @@ namespace MultiShop.Catalog.Services.ProductImageServices
 		Task CreateProductImageAsync(CreateProductImageDto createProductImageDto);
 		Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto);
 		Task DeleteProductImageAsync(string id);
+		Task<GetProductImageByIdDto> GetProductImageByProductIdAsync(string productId);
 	}
 }

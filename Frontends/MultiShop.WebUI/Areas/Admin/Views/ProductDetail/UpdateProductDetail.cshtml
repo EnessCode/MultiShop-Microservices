@@ -1,0 +1,41 @@
+﻿@model UpdateProductDetailDto
+
+@{
+    ViewData["Title"] = "Ürün Detayı Güncelle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili ürünün detaylı açıklama ve teknik/ek bilgi yazılarını aşağıdan düzenleyebilirsiniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/ProductDetail/UpdateProductDetail">
+
+                    <input type="hidden" asp-for="Id" name="Id" value="@Model?.Id" />
+                    <input type="hidden" asp-for="ProductId" name="ProductId" value="@Model?.ProductId" />
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Açıklaması</label>
+                        <textarea class="form-control" asp-for="Description" name="Description" rows="6" placeholder="Ürünün genel uzun açıklamasını buraya giriniz..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;">@Model?.Description</textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Ek Bilgileri / Teknik Özellikler</label>
+                        <textarea class="form-control" asp-for="Information" name="Information" rows="6" placeholder="Ürünün malzeme, boyut, iade koşulları veya teknik özellikleri gibi ek detayları buraya giriniz..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;">@Model?.Information</textarea>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i> Detayları Kaydet</button>
+                        <a href="/Admin/Product/ProductListWithCategory" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

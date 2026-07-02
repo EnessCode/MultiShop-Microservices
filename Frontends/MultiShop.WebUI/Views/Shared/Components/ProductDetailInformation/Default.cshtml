@@ -1,38 +1,7 @@
-﻿<div class="tab-pane fade" id="tab-pane-2">
+﻿@model ResultProductDetailDto
+
+<div class="tab-pane fade" id="tab-pane-2">
     <h4 class="mb-3">Ek Bilgiler</h4>
-    <p>RunVeloce Pro X, en üst düzey performans ve uzun ömürlü kullanım için yüksek kaliteli bileşenlerle üretilmiştir. Ayakkabının bakımını kolaylaştırmak ve formunu korumasını sağlamak amacıyla nemli bir bezle temizlenmesi önerilir. Aşağıda, ürünün üretiminde kullanılan malzemeler ve öne çıkan teknik detaylar iki liste halinde bilgilerinize sunulmuştur.</p>
-    <div class="row">
-        <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item px-0">
-                    <strong>Kullanım Alanı:</strong> Koşu, antrenman ve günlük yürüyüşler için uygundur.
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>Üst Yüzey (Saya):</strong> Nefes alabilen dikişsiz Knit (örgü) kumaş teknolojisi.
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>Taban Teknolojisi:</strong> Yüksek enerji dönüşümlü EVA orta taban.
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>Dış Taban:</strong> Maksimum yer tutuşu sağlayan aşınmaya dayanıklı kauçuk.
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item px-0">
-                    <strong>Ağırlık:</strong> 42 numara için yalnızca 265 gram (Ultra hafif yapı).
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>Topuk-Burun Mesafesi (Drop):</strong> Dengeli adımlar için 10 mm.
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>Bağlama Şekli:</strong> Ayak kemerini destekleyen dinamik bağcık sistemi.
-                </li>
-                <li class="list-group-item px-0">
-                    <strong>İç Taban:</strong> Antibakteriyel ve ergonomik OrthoLite® iç tabanlık.
-                </li>
-            </ul>
-        </div>
-    </div>
+
+    <p>@Html.Raw(Model.Information)</p>
 </div>

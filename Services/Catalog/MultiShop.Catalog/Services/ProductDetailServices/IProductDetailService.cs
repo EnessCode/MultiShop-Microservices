@@ -1,4 +1,5 @@
 ﻿using MultiShop.Catalog.Dtos.ProductDetailDtos;
+using MultiShop.Catalog.Dtos.ProductImageDtos;
 
 namespace MultiShop.Catalog.Services.ProductDetailServices
 {
@@ -8,6 +9,7 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
 		Task<GetProductDetailByIdDto> GetProductDetailByIdAsync(string id);
 		Task CreateProductDetailAsync(CreateProductDetailDto createProductDetailDto);
 		Task UpdateProductDetailAsync(UpdateProductDetailDto updateProductDetailDto);
-		Task DeleteProductDetailAsync(string id);
+		Task DeleteProductDetailAsync(string id); 
+		Task<GetProductDetailByIdDto> GetProductDetailByProductIdAsync(string productId);
 	}
 }

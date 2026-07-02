@@ -1,46 +1,46 @@
 ﻿@{
-    ViewData["Title"] = "Ürün Detayı";
+	ViewData["Title"] = "Ürün Detayı";
 }
 
 <div class="container-fluid">
-    <div class="row px-xl-5">
-        <div class="col-12">
-            <nav class="breadcrumb bg-light mb-30">
-                <a class="breadcrumb-item text-dark" href="/Home/Index">Ana Sayfa</a>
-                <a class="breadcrumb-item text-dark" href="/ProductList">Ürün Listesi</a>
-                <span class="breadcrumb-item active">@ViewData["Title"]</span>
-            </nav>
-        </div>
-    </div>
+	<div class="row px-xl-5">
+		<div class="col-12">
+			<nav class="breadcrumb bg-light mb-30">
+				<a class="breadcrumb-item text-dark" href="/Home/Index">Ana Sayfa</a>
+				<a class="breadcrumb-item text-dark" href="/ProductList">Ürün Listesi</a>
+				<span class="breadcrumb-item active">@ViewData["Title"]</span>
+			</nav>
+		</div>
+	</div>
 </div>
 
 
 <div class="container-fluid pb-5">
-    <div class="row px-xl-5">
+	<div class="row px-xl-5">
 
-        @await Component.InvokeAsync("ProductImageSlider")
+		@await Component.InvokeAsync("ProductImageSlider", new { productId = ViewBag.productId })
 
-        @await Component.InvokeAsync("ProductDetailFeature")
+		@await Component.InvokeAsync("ProductDetailFeature", new { productId = ViewBag.productId })
 
-    </div>
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="bg-light p-30">
-                <div class="nav nav-tabs mb-4">
-                    <a class="nav-item nav-link text-dark active" data-bs-toggle="tab" href="#tab-pane-1">Açıklama</a>
-                    <a class="nav-item nav-link text-dark" data-bs-toggle="tab" href="#tab-pane-2">Bilgi</a>
-                    <a class="nav-item nav-link text-dark" data-bs-toggle="tab" href="#tab-pane-3">Değerlendirmeler</a>
-                </div>
-                <div class="tab-content">
+	</div>
+	<div class="row px-xl-5">
+		<div class="col">
+			<div class="bg-light p-30">
+				<div class="nav nav-tabs mb-4">
+					<a class="nav-item nav-link text-dark active" data-bs-toggle="tab" href="#tab-pane-1">Açıklama</a>
+					<a class="nav-item nav-link text-dark" data-bs-toggle="tab" href="#tab-pane-2">Bilgi</a>
+					<a class="nav-item nav-link text-dark" data-bs-toggle="tab" href="#tab-pane-3">Değerlendirmeler</a>
+				</div>
+				<div class="tab-content">
 
-                    @await Component.InvokeAsync("ProductDetailDescription")
+					@await Component.InvokeAsync("ProductDetailDescription", new { productId = ViewBag.productId })
 
-                    @await Component.InvokeAsync("ProductDetailInformation")
+					@await Component.InvokeAsync("ProductDetailInformation", new { productId = ViewBag.productId })
 
-                    @await Component.InvokeAsync("ProductDetailReview")
+					@await Component.InvokeAsync("ProductDetailReview")
 
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

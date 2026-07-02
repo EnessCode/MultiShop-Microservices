@@ -51,5 +51,12 @@ namespace MultiShop.Catalog.Controllers
 			await _productImageService.DeleteProductImageAsync(id);
 			return Ok("Ürün görselleri başarıyla silindi.");
 		}
+
+		[HttpGet("product/{productId}")]
+		public async Task<IActionResult> GetProductImagesByProductId(string productId)
+		{
+			var value = await _productImageService.GetProductImageByProductIdAsync(productId);
+			return Ok(value);
+		}
 	}
 }

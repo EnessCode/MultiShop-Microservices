@@ -1,0 +1,89 @@
+﻿@model ResultProductImageDto
+
+@{
+    ViewData["Title"] = "Ürün Görselleri Detayı";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h4 style="margin: 0 0 5px 0; color: #333; font-weight: 600;">Ürün Görsel Galerisi</h4>
+                        <p style="color: #5e6e82; font-size: 14px; margin: 0;">Bu ürüne ait dinamik olarak listelenen tüm görseller.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="/Admin/Product/ProductListWithCategory" class="btn btn-secondary">
+                            <i class="fa fa-arrow-left"></i> Ürün Listesine Dön
+                        </a>
+                        @{
+                            var productId = Model?.ProductId ?? Context.Request.Query["productId"].ToString();
+                        }
+                        <a href="/Admin/ProductImage/CreateProductImage?productId=@productId" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Yeni Görsel Ekle
+                        </a>
+                    </div>
+                </div>
+
+                <hr style="border-top: 1px solid #edf2f9; margin-bottom: 25px;" />
+
+                @if (Model != null && Model.Images != null && Model.Images.Any())
+                {
+                    <div class="row">
+                        @foreach (var imageUrl in Model.Images)
+                        {
+                            <div class="col-md-3 col-sm-6 mb-4">
+                                <div class="card h-100" style="border: 1px solid #edf2f9; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; background: #fff;">
+
+                                    <div style="height: 220px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa; padding: 10px; border-bottom: 1px solid #edf2f9;">
+                                        @if (!string.IsNullOrEmpty(imageUrl))
+                                        {
+                                            <img src="@imageUrl" alt="Ürün Görseli" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 4px;" />
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center text-muted">
+                                                <i class="fa fa-image" style="font-size: 40px; color: #cbd5e1;"></i>
+                                                <p style="font-size: 12px; margin-top: 5px;">Hatalı URL</p>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="card-body" style="padding: 12px; background-color: #fafbfc;">
+                                        <div style="display: flex; gap: 5px;">
+                                            <a href="@imageUrl" target="_blank" class="btn btn-outline-primary btn-sm flex-grow-1" title="Büyük Boyutta Gör">
+                                                <i class="fa fa-eye"></i> İncele
+                                            </a>
+                                            <a href="/Admin/ProductImage/DeleteProductImage?id=@Model.Id&imageUrl=@System.Web.HttpUtility.UrlEncode(imageUrl)"
+                                               class="btn btn-outline-danger btn-sm"
+                                               onclick="return confirm('Bu görseli silmek istediğinize emin misiniz?');"
+                                               title="Görseli Sil">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center" style="padding: 60px 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #e2e8f0;">
+                        <div style="margin-bottom: 15px;">
+                            <i class="fa fa-images text-muted" style="font-size: 50px; color: #94a3b8 !important;"></i>
+                        </div>
+                        <h5 style="color: #334155; font-weight: 600;">Henüz Görsel Eklenmemiş</h5>
+                        <p style="color: #64748b; max-width: 400px; margin: 0 auto 20px auto; font-size: 14px;">
+                            Bu ürüne ait herhangi bir galeri resmi bulunamadı. Müşterilerin ürünü daha iyi inceleyebilmesi için hemen bir görsel ekleyebilirsiniz.
+                        </p>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
