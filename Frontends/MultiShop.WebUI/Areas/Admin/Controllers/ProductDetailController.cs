@@ -26,7 +26,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Ürün Detayı Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("ProductDetails/product/" + id);
 			if (responseMessage.IsSuccessStatusCode)
 			{
@@ -40,7 +40,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProductDetail(UpdateProductDetailDto updateProductDetailDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateProductDetailDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 

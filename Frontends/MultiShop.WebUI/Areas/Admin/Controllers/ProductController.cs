@@ -29,7 +29,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Ürün Listesi");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Products");
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -47,7 +47,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Yeni Ürün Ekle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Categories");
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -71,7 +71,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(createProductDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -102,7 +102,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Ürün Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 
 			var categoryResponse = await client.GetAsync("Categories");
 			if (categoryResponse.IsSuccessStatusCode)
@@ -130,7 +130,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateProductDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -144,7 +144,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> DeleteProduct(string id)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.DeleteAsync("Products/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -159,7 +159,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Ürün Listesi");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Products/with-category");
 
 			if (responseMessage.IsSuccessStatusCode)

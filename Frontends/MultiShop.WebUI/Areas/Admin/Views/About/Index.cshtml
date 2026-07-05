@@ -15,7 +15,6 @@
                         Sitenizin "Hakkımızda" ve iletişim bölümlerinde yer alan genel bilgilerinizi buradan yönetebilirsiniz.
                     </p>
 
-                    @* Eğer veri yoksa aktif buton, veri varsa inaktif (disabled) buton gösteriliyor *@
                     @if (Model == null || Model.Count == 0)
                     {
                         <a href="/Admin/About/CreateAbout" class="btn btn-primary">
@@ -30,7 +29,6 @@
                     }
                 </div>
 
-                @* Sistem notu sadece veri girişi yapılmışsa (buton inaktifken) çıkıyor *@
                 @if (Model != null && Model.Count > 0)
                 {
                     <div class="alert alert-info" role="alert" style="border-radius: 6px; border-left: 4px solid #b8daff; background-color: #e8f4fd; color: #0056b3; font-size: 13px; margin-bottom: 20px; padding: 10px 15px;">

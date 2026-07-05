@@ -16,7 +16,7 @@ namespace MultiShop.WebUI.ViewComponents.ProductListViewComponents
 
 		public async Task<IViewComponentResult> InvokeAsync(string categoryId)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Products/category/" + categoryId);
 
 			if (responseMessage.IsSuccessStatusCode)

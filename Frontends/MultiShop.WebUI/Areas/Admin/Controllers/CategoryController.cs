@@ -27,7 +27,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Kategori Listesi");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Categories");
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -50,7 +50,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(createCategoryDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -68,7 +68,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Kategori Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Categories/" + id);
 			if (responseMessage.IsSuccessStatusCode)
 			{
@@ -82,7 +82,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateCategoryDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -96,7 +96,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> DeleteCategory(string id)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.DeleteAsync("Categories/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)

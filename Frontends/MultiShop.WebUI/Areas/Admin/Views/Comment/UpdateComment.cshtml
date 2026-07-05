@@ -1,0 +1,59 @@
+﻿@model UpdateCommentDto
+
+@{
+    ViewData["Title"] = "Yorum Güncelle";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">Seçili yorumun detaylarını aşağıdan düzenleyebilirsiniz.</p>
+                </div>
+
+                <form method="post" action="/Admin/Comment/UpdateComment">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <input type="hidden" asp-for="Email" />
+                    <input type="hidden" asp-for="CreatedDate" />
+                    <input type="hidden" asp-for="ProductId" />
+                    <input type="hidden" asp-for="NameSurname" />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Kullanıcı Adı</label>
+                                <input type="text" class="form-control" value="@Model.NameSurname" readonly style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px;" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Puan (1-5)</label>
+                                <input type="number" class="form-control" asp-for="Rating" min="1" max="5" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px;" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Yorum İçeriği</label>
+                        <textarea class="form-control" asp-for="Content" rows="4" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px; display: block;">Durum (Aktiflik)</label>
+                        <select class="form-control" asp-for="Status" style="width: 100%; border-radius: 6px; border: 1px solid #ced4da; padding: 10px 15px; height: auto;">
+                            <option value="true">Aktif</option>
+                            <option value="false">Pasif</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i> Değişiklikleri Kaydet</button>
+                        <a href="/Admin/Comment/Index" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

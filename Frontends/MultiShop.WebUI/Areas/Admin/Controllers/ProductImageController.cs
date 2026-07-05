@@ -28,7 +28,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			SetBreadcrumb("Ürün Görselleri");
 			ViewBag.ProductId = productId;
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("ProductImages/product/" + productId);
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -61,7 +61,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 				return View(createProductImageDto);
 			}
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 
 			var checkResponse = await client.GetAsync("ProductImages/product/" + createProductImageDto.ProductId);
 
@@ -106,7 +106,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Görsel Galeri Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 
 			var responseMessage = await client.GetAsync("ProductImages/" + id);
 			if (responseMessage.IsSuccessStatusCode)
@@ -121,7 +121,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProductImage(UpdateProductImageDto updateProductImageDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateProductImageDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -135,7 +135,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> DeleteProductImage(string id, string imageUrl)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 
 			var responseMessage = await client.GetAsync("ProductImages/" + id);
 			if (responseMessage.IsSuccessStatusCode)

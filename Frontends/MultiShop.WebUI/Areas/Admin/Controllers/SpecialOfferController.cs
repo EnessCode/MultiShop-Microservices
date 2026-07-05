@@ -27,7 +27,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Mini Vitrin Teklif Listesi");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("SpecialOffers");
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -50,7 +50,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateSpecialOffer(CreateSpecialOfferDto createSpecialOfferDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(createSpecialOfferDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -68,7 +68,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Mini Teklif Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("SpecialOffers/" + id);
 			if (responseMessage.IsSuccessStatusCode)
 			{
@@ -82,7 +82,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateSpecialOffer(UpdateSpecialOfferDto updateSpecialOfferDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateSpecialOfferDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -96,7 +96,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> DeleteSpecialOffer(string id)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.DeleteAsync("SpecialOffers/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)

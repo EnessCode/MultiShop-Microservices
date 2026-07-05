@@ -27,7 +27,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Öne Çıkan Görsel Listesi");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("FeatureSliders");
 
 			if (responseMessage.IsSuccessStatusCode)
@@ -50,7 +50,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateFeatureSlider(CreateFeatureSliderDto createFeatureSliderDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(createFeatureSliderDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -68,7 +68,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Öne Çıkan Görsel Güncelle");
 
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("FeatureSliders/" + id);
 			if (responseMessage.IsSuccessStatusCode)
 			{
@@ -82,7 +82,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateFeatureSlider(UpdateFeatureSliderDto updateFeatureSliderDto)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var jsonData = JsonConvert.SerializeObject(updateFeatureSliderDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -96,7 +96,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> DeleteFeatureSlider(string id)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.DeleteAsync("FeatureSliders/" + id);
 
 			if (responseMessage.IsSuccessStatusCode)

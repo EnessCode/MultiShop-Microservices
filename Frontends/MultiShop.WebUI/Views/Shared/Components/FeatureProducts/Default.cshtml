@@ -45,11 +45,25 @@
 
 								<div class="d-flex align-items-center justify-content-center gap-1 mb-2">
 									<div class="text-warning small">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
+										@{
+											double avgRating = (ViewBag.Ratings as Dictionary<string, double>)[item.Id];
+											int fullStars = (int)Math.Floor(avgRating);
+											bool hasHalfStar = (avgRating - fullStars) >= 0.5;
+											int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+										}
+
+										@for (int i = 0; i < fullStars; i++)
+										{
+											<i class="fa fa-star"></i>
+										}
+										@if (hasHalfStar)
+										{
+											<i class="fa fa-star-half-alt"></i>
+										}
+										@for (int i = 0; i < emptyStars; i++)
+										{
+											<i class="far fa-star"></i>
+										}
 									</div>
 								</div>
 							</div>

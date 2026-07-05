@@ -1,15 +1,19 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddHttpClient("MultiShopApi", client =>
+builder.Services.AddHttpClient("CatalogApi", client =>
 {
 	client.BaseAddress = new Uri(builder.Configuration["ApiSettings:CatalogApi"]);
 });
+
+builder.Services.AddHttpClient("CommentApi", client =>
+{
+	client.BaseAddress = new Uri(builder.Configuration["ApiSettings:CommentApi"]);
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Home/Error");

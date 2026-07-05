@@ -37,7 +37,7 @@
 
 					@await Component.InvokeAsync("ProductDetailInformation", new { productId = ViewBag.productId })
 
-					@await Component.InvokeAsync("ProductDetailReview")
+					@await Component.InvokeAsync("ProductDetailReview", new { productId = ViewBag.productId })
 
 				</div>
 			</div>

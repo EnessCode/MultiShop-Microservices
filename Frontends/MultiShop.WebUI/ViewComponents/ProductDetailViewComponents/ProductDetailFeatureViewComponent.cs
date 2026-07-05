@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
+using MultiShop.DtoLayer.Dtos.CommentDtos;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
@@ -15,16 +16,18 @@ namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
 
 		public async Task<IViewComponentResult> InvokeAsync(string productId)
 		{
-			var client = _httpClientFactory.CreateClient("MultiShopApi");
+			var client = _httpClientFactory.CreateClient("CatalogApi");
 			var responseMessage = await client.GetAsync("Products/" + productId);
+			var product = JsonConvert.DeserializeObject<UpdateProductDto>(await responseMessage.Content.ReadAsStringAsync());
 
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateProductDto>(jsonData);
-				return View(values);
-			}
-			return View(new List<UpdateProductDto>());
+			var commentClient = _httpClientFactory.CreateClient("CommentApi");
+			var commentResponse = await commentClient.GetAsync("Comments/product/" + productId);
+			var comments = JsonConvert.DeserializeObject<List<ResultCommentDto>>(await commentResponse.Content.ReadAsStringAsync());
+
+			ViewBag.ReviewCount = comments?.Count ?? 0;
+			ViewBag.AverageRating = comments != null && comments.Count > 0 ? comments.Average(x => x.Rating) : 0;
+
+			return View(product);
 		}
 	}
 }
