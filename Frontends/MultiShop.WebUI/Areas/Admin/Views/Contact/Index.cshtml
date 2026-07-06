@@ -1,0 +1,91 @@
+﻿@model List<ResultContactDto>
+@{
+    ViewData["Title"] = "İletişim Mesajları";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>Gönderen</th>
+                            <th>Konu</th>
+                            <th>Durum</th>
+                            <th>Detay</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            count++;
+                            <tr class="@(item.IsRead ? "" : "bg-warning-light")">
+                                <td>@count</td>
+                                <td>@item.NameSurname</td>
+                                <td>@item.Subject</td>
+                                <td>
+                                    <button class="btn btn-sm @(item.IsRead ? "btn-success" : "btn-danger")"
+                                            onclick="toggleReadStatus('@item.Id', @item.IsRead.ToString().ToLower())">
+                                        @(item.IsRead ? "Okundu" : "Okunmadı")
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" onclick="showDetail('@item.NameSurname', '@item.Email', '@item.Message', '@item.CreatedDate')">
+                                        <i class="fa fa-eye"></i> İncele
+                                    </button>
+                                </td>
+                                <td>
+                                    <a href="/Admin/Contact/DeleteContact/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?');">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="senderName"></h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>E-posta:</strong> <span id="senderEmail"></span></p>
+                <p><strong>Tarih:</strong> <span id="sentDate"></span></p>
+                <hr>
+                <p><strong>Mesaj:</strong></p>
+                <p id="messageContent" style="background:#f4f4f4; padding:10px; border-radius:5px;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showDetail(name, email, message, date) {
+        document.getElementById('senderName').innerText = name;
+        document.getElementById('senderEmail').innerText = email;
+        document.getElementById('sentDate').innerText = date;
+        document.getElementById('messageContent').innerText = message;
+        $('#detailModal').modal('show');
+    }
+
+    function toggleReadStatus(id, currentStatus) {
+        fetch(`/Admin/Contact/ChangeReadStatus?id=${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(!currentStatus)
+        }).then(res => { if(res.ok) location.reload(); });
+    }
+</script>
