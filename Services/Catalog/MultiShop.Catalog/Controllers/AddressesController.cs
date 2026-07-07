@@ -5,7 +5,7 @@ using MultiShop.Catalog.Services.AddressServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-	[AllowAnonymous]
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AddressesController : ControllerBase

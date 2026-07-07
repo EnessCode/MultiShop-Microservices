@@ -1,0 +1,70 @@
+﻿.auth-bg {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+    background-color: #ffffff;
+}
+
+.text-primary {
+    color: #4361ee !important;
+}
+
+.btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+    .btn-primary:hover {
+        background-color: #3f37c9;
+        border-color: #3f37c9;
+    }
+
+.nav-pills .nav-link {
+    color: #6c757d;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .nav-pills .nav-link.active {
+        background-color: #4361ee;
+        color: white;
+        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+    }
+
+.form-control:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+}
+
+.custom-validation-summary ul {
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.custom-validation-summary li {
+    margin-bottom: 0.25rem;
+}
+
+    .custom-validation-summary li:last-child {
+        margin-bottom: 0;
+    }
+
+.alert-custom {
+    border-left: 4px solid;
+    border-radius: 0.5rem;
+}
+
+.alert-success-custom {
+    border-left-color: #198754;
+    background-color: #f8fff9;
+}
+
+.alert-danger-custom {
+    border-left-color: #dc3545;
+    background-color: #fff8f8;
+}
