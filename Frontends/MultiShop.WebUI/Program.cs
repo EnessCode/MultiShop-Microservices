@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
+using MultiShop.WebUI.Services.IdentityServices;
 using MultiShop.WebUI.Services.LoginServices;
+using MultiShop.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +19,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		opt.Cookie.Name = "MultiShopCookie";
 	});
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
+	{
+		opt.LoginPath = "/Index/Auth";
+		opt.LogoutPath = "/Auth/Logout";
+		opt.AccessDeniedPath = "/Pages/AccessDenied";
+		opt.Cookie.HttpOnly = true;
+		opt.Cookie.SameSite = SameSiteMode.Strict;
+		opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+		opt.Cookie.Name = "MultiShopCookie";
+		opt.ExpireTimeSpan = TimeSpan.FromDays(5);
+		opt.SlidingExpiration = true;
+	});
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 builder.Services.AddHttpClient("CatalogApi", client =>
 {
@@ -35,6 +56,8 @@ builder.Services.AddHttpClient("IdentityApi", client =>
 });
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
 var app = builder.Build();
 
