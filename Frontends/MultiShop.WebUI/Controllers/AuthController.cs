@@ -35,49 +35,8 @@ namespace MultiShop.WebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login(CreateLoginDto createLoginDto)
 		{
-			var client = _httpClientFactory.CreateClient("IdentityApi");
-			var content = new StringContent(JsonConvert.SerializeObject(createLoginDto), Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Auth/login", content);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var tokenModel = JsonConvert.DeserializeObject<JwtResponeModel>(jsonData, new JsonSerializerSettings
-				{
-					ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-				});
-
-				if (tokenModel != null && tokenModel.Token != null)
-				{
-					JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-					var token = handler.ReadJwtToken(tokenModel.Token);
-					var claims = token.Claims.ToList();
-
-					claims.Add(new Claim("multishoptoken", tokenModel.Token));
-					var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-					var authProperties = new AuthenticationProperties
-					{
-						IsPersistent = true,
-						ExpiresUtc = tokenModel.ExpireDate
-					};
-
-					await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-					var id = _loginService.GetUserId;
-					return RedirectToAction("Index", "Home");
-				}
-			}
-
-			ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı!");
-			ViewBag.ActiveTab = "login";
-			return View("Index");
+			return View();
 		}
-
-		//[HttpGet]
-		//public IActionResult SignIn()
-		//{
-		//	return View();
-		//}
 
 		[HttpPost]
 		public async Task<IActionResult> SignIn(SignInDto signInDto)
@@ -85,7 +44,7 @@ namespace MultiShop.WebUI.Controllers
 			signInDto.Username = "test";
 			signInDto.Password = "111111aA*";
 			await _identityService.SignIn(signInDto);
-			return RedirectToAction("Index","Home");
+			return RedirectToAction("Index", "User");
 		}
 
 		[HttpPost]
