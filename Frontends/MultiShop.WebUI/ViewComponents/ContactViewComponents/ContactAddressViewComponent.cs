@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.AddressDtos;
-using Newtonsoft.Json;
+using MultiShop.WebUI.Services.CatalogServices.AddressServices;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MultiShop.WebUI.ViewComponents.ContactViewComponents
 {
 	public class ContactAddressViewComponent : ViewComponent
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IAddressService _addressService;
 
-		public ContactAddressViewComponent(IHttpClientFactory httpClientFactory)
+		public ContactAddressViewComponent(IAddressService addressService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_addressService = addressService;
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Addresses");
+			var values = await _addressService.GetAllAddressesAsync();
 
-			if (responseMessage.IsSuccessStatusCode)
+			if (values != null && values.Any())
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultAddressDto>>(jsonData);
 				return View(values.FirstOrDefault());
 			}
 

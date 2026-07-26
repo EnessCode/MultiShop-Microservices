@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CommentDtos;
+using MultiShop.WebUI.Services.CommentServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,11 +9,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class CommentController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ICommentService _commentService;
 
-		public CommentController(IHttpClientFactory httpClientFactory)
+		public CommentController(ICommentService commentService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_commentService = commentService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Yorumlar", string moduleUrl = "/Admin/Comment/Index")
@@ -26,56 +27,30 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Yorum Listesi");
-
-			var client = _httpClientFactory.CreateClient("CommentApi");
-			var responseMessage = await client.GetAsync("Comments");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultCommentDto>());
+			var values = await _commentService.GetAllCommentAsync();
+			return View(values);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> UpdateComment(int id)
 		{
 			SetBreadcrumb("Yorum Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CommentApi");
-			var responseMessage = await client.GetAsync("Comments/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateCommentDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("Index", "Comment", new { area = "Admin" });
+			var value = await _commentService.GetByIdCommentAsync(id);
+			return View(value);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateComment(UpdateCommentDto updateCommentDto)
 		{
-			var client = _httpClientFactory.CreateClient("CommentApi");
-			var jsonData = JsonConvert.SerializeObject(updateCommentDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+			await _commentService.UpdateCommentAsync(updateCommentDto);
+			return RedirectToAction("Index", "Comment", new { area = "Admin" });
 
-			var responseMessage = await client.PutAsync("Comments", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Comment", new { area = "Admin" });
-			}
-			return View(updateCommentDto);
+
 		}
 
 		public async Task<IActionResult> DeleteComment(int id)
 		{
-			var client = _httpClientFactory.CreateClient("CommentApi");
-			var responseMessage = await client.DeleteAsync("Comments/" + id);
-
+			await _commentService.DeleteCommentAsync(id);
 			return RedirectToAction("Index", "Comment", new { area = "Admin" });
 		}
 	}

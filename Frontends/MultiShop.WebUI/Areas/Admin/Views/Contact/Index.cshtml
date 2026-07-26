@@ -28,10 +28,10 @@
                                 <td>@item.NameSurname</td>
                                 <td>@item.Subject</td>
                                 <td>
-                                    <button class="btn btn-sm @(item.IsRead ? "btn-success" : "btn-danger")"
-                                            onclick="toggleReadStatus('@item.Id', @item.IsRead.ToString().ToLower())">
+                                    <a href="/Admin/Contact/ChangeReadStatus?id=@item.Id&isRead=@(!item.IsRead)"
+                                       class="btn btn-sm @(item.IsRead ? "btn-success" : "btn-danger")">
                                         @(item.IsRead ? "Okundu" : "Okunmadı")
-                                    </button>
+                                    </a>
                                 </td>
                                 <td>
                                     <button class="btn btn-info btn-sm" onclick="showDetail('@item.NameSurname', '@item.Email', '@item.Message', '@item.CreatedDate')">
@@ -79,13 +79,5 @@
         document.getElementById('sentDate').innerText = date;
         document.getElementById('messageContent').innerText = message;
         $('#detailModal').modal('show');
-    }
-
-    function toggleReadStatus(id, currentStatus) {
-        fetch(`/Admin/Contact/ChangeReadStatus?id=${id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(!currentStatus)
-        }).then(res => { if(res.ok) location.reload(); });
     }
 </script>

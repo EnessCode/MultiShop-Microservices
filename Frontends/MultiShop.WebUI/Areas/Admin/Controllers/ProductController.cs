@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.CategoryDtos;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
+using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
@@ -10,11 +13,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class ProductController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IProductService _productService;
+		private readonly ICategoryService _categoryService;
 
-		public ProductController(IHttpClientFactory httpClientFactory)
+		public ProductController(IProductService productService, ICategoryService categoryService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_productService = productService;
+			_categoryService = categoryService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Ürünler", string moduleUrl = "/Admin/Product/Index")
@@ -28,148 +33,69 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Ürün Listesi");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Products");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultProductWithCategoryDto>());
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> CreateProduct()
-		{
-			SetBreadcrumb("Yeni Ürün Ekle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Categories");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
-
-				List<SelectListItem> categoryValues = (from x in values
-													   select new SelectListItem
-													   {
-														   Text = x.Name,
-														   Value = x.Id
-													   }).ToList();
-
-				ViewBag.CategoryValues = categoryValues;
-			}
-
-			return View();
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
-		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(createProductDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Products", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
-			}
-
-			var categoryResponse = await client.GetAsync("Categories");
-			if (categoryResponse.IsSuccessStatusCode)
-			{
-				var categoryJson = await categoryResponse.Content.ReadAsStringAsync();
-				var categoryValues = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(categoryJson);
-				ViewBag.CategoryValues = (from x in categoryValues
-										  select new SelectListItem
-										  {
-											  Text = x.Name,
-											  Value = x.Id
-										  }).ToList();
-			}
-
-			return View(createProductDto);
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> UpdateProduct(string id)
-		{
-			SetBreadcrumb("Ürün Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-
-			var categoryResponse = await client.GetAsync("Categories");
-			if (categoryResponse.IsSuccessStatusCode)
-			{
-				var categoryJson = await categoryResponse.Content.ReadAsStringAsync();
-				var categoryData = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(categoryJson);
-				ViewBag.CategoryValues = (from x in categoryData
-										  select new SelectListItem
-										  {
-											  Text = x.Name,
-											  Value = x.Id
-										  }).ToList();
-			}
-
-			var responseMessage = await client.GetAsync("Products/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateProductDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
-		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateProductDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("Products", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
-			}
-			return View(updateProductDto);
-		}
-
-		public async Task<IActionResult> DeleteProduct(string id)
-		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.DeleteAsync("Products/" + id);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
-			}
-			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
+			var values = await _productService.GetAllProductsAsync();
+			return View(values);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> ProductListWithCategory()
 		{
 			SetBreadcrumb("Ürün Listesi");
+			var values = await _productService.GetProductsWithCategoryAsync();
+			return View(values);
+		}
 
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Products/with-category");
+		[HttpGet]
+		public async Task<IActionResult> CreateProduct()
+		{
+			SetBreadcrumb("Yeni Ürün Ekle");
+			var values = await _categoryService.GetAllCategoriesAsync();
+			List<SelectListItem> categoryValues = (from x in values
+												   select new SelectListItem
+												   {
+													   Text = x.Name,
+													   Value = x.Id
+												   }).ToList();
 
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
-				return View(values);
-			}
+			ViewBag.CategoryValues = categoryValues;
+			return View();
+		}
 
-			return View(new List<ResultProductWithCategoryDto>());
+		[HttpPost]
+		public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
+		{
+			await _productService.CreateProductAsync(createProductDto);
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> UpdateProduct(string id)
+		{
+			SetBreadcrumb("Ürün Güncelle");
+			var value = await _categoryService.GetAllCategoriesAsync();
+			List<SelectListItem> categoryValues = (from x in value
+												   select new SelectListItem
+												   {
+													   Text = x.Name,
+													   Value = x.Id
+												   }).ToList();
+
+			ViewBag.CategoryValues = categoryValues;
+			var productValues = await _productService.GetProductByIdAsync(id);
+			return View(productValues);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
+		{
+			await _productService.UpdateProductAsync(updateProductDto);
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
+		}
+
+		public async Task<IActionResult> DeleteProduct(string id)
+		{
+			await _productService.DeleteProductAsync(id);
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
 	}
 }

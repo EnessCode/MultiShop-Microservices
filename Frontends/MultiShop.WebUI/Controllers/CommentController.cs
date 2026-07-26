@@ -1,33 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CommentDtos;
-using Newtonsoft.Json;
-using System.Text;
+using MultiShop.WebUI.Services.CommentServices;
+using System.Threading.Tasks;
 
 namespace MultiShop.WebUI.Controllers
 {
 	public class CommentController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ICommentService _commentService;
 
-		public CommentController(IHttpClientFactory httpClientFactory)
+		public CommentController(ICommentService commentService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_commentService = commentService;
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> CreateComment(CreateCommentDto createCommentDto)
 		{
-			var client = _httpClientFactory.CreateClient("CommentApi");
-			var jsonData = JsonConvert.SerializeObject(createCommentDto);
-			StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Comments", content);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductDetail", "ProductList", new { id = createCommentDto.ProductId });
-			}
-
+			await _commentService.CreateCommentAsync(createCommentDto);
 			return RedirectToAction("ProductDetail", "ProductList", new { id = createCommentDto.ProductId });
 		}
 	}

@@ -1,28 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductImageDtos;
-using Newtonsoft.Json;
+using MultiShop.WebUI.Services.CatalogServices.ProductImageServices;
 
 namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
 {
 	public class ProductImageSliderViewComponent : ViewComponent
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IProductImageService _productImageService;
 
-		public ProductImageSliderViewComponent(IHttpClientFactory httpClientFactory)
+		public ProductImageSliderViewComponent(IProductImageService productImageService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_productImageService = productImageService;
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync(string productId)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("ProductImages/product/" + productId);
+			var value = await _productImageService.GetProductImageByProductIdAsync(productId);
 
-			if (responseMessage.IsSuccessStatusCode)
+			if (value != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<ResultProductImageDto>(jsonData);
-				return View(values);
+				var model = new ResultProductImageDto
+				{
+					Id = value.Id,
+					ProductId = value.ProductId,
+					Images = value.Images
+				};
+
+				return View(model);
 			}
 
 			return View(new ResultProductImageDto());

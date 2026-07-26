@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDetailDtos;
+using MultiShop.WebUI.Services.CatalogServices.ProductDetailServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,12 +9,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class ProductDetailController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IProductDetailService _productDetailService;
 
-		public ProductDetailController(IHttpClientFactory httpClientFactory)
+		public ProductDetailController(IProductDetailService productDetailService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_productDetailService = productDetailService;
 		}
+
 		private void SetBreadcrumb(string activePage, string moduleName = "Ürün Detayı", string moduleUrl = "/Admin/ProductDetail/Index")
 		{
 			ViewBag.v1 = moduleName;
@@ -25,14 +27,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> UpdateProductDetail(string id)
 		{
 			SetBreadcrumb("Ürün Detayı Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("ProductDetails/product/" + id);
-			if (responseMessage.IsSuccessStatusCode)
+			var value = await _productDetailService.GetProductDetailByProductIdAsync(id);
+			if (value != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateProductDetailDto>(jsonData);
-				return View(values);
+				return View(value);
 			}
 			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
@@ -40,16 +38,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateProductDetail(UpdateProductDetailDto updateProductDetailDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateProductDetailDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("ProductDetails", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
-			}
-			return View(updateProductDetailDto);
+			await _productDetailService.UpdateProductDetailAsync(updateProductDetailDto);
+			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
 	}
 }

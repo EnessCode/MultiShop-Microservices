@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductImageDtos;
-using Newtonsoft.Json;
-using System.Text;
+using MultiShop.WebUI.Services.CatalogServices.ProductImageServices;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	public class ProductImageController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IProductImageService _productImageService;
 
-		public ProductImageController(IHttpClientFactory httpClientFactory)
+		public ProductImageController(IProductImageService productImageService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_productImageService = productImageService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Ürün Görselleri", string moduleUrl = "/Admin/ProductImage/ProductImageDetail")
@@ -28,24 +27,27 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 			SetBreadcrumb("Ürün Görselleri");
 			ViewBag.ProductId = productId;
 
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("ProductImages/product/" + productId);
+			var value = await _productImageService.GetProductImageByProductIdAsync(productId);
 
-			if (responseMessage.IsSuccessStatusCode)
+			if (value != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<ResultProductImageDto>(jsonData);
-				return View(values);
+				var model = new ResultProductImageDto
+				{
+					Id = value.Id,
+					ProductId = value.ProductId,
+					Images = value.Images
+				};
+
+				return View(model);
 			}
 
 			return View(new ResultProductImageDto());
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> CreateProductImage(string productId)
+		public IActionResult CreateProductImage(string productId)
 		{
 			SetBreadcrumb("Yeni Görsel Ekle");
-
 			var model = new CreateProductImageDto { ProductId = productId };
 			return View(model);
 		}
@@ -61,44 +63,23 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 				return View(createProductImageDto);
 			}
 
-			var client = _httpClientFactory.CreateClient("CatalogApi");
+			var existingGallery = await _productImageService.GetProductImageByProductIdAsync(createProductImageDto.ProductId);
 
-			var checkResponse = await client.GetAsync("ProductImages/product/" + createProductImageDto.ProductId);
-
-			if (checkResponse.IsSuccessStatusCode)
+			if (existingGallery != null && !string.IsNullOrEmpty(existingGallery.Id))
 			{
-				var jsonCheckData = await checkResponse.Content.ReadAsStringAsync();
-				var existingGallery = JsonConvert.DeserializeObject<UpdateProductImageDto>(jsonCheckData);
+				if (existingGallery.Images == null)
+					existingGallery.Images = new List<string>();
 
-				if (existingGallery != null && !string.IsNullOrEmpty(existingGallery.Id))
-				{
-					if (existingGallery.Images == null)
-						existingGallery.Images = new List<string>();
+				existingGallery.Images.AddRange(createProductImageDto.Images);
 
-					existingGallery.Images.AddRange(createProductImageDto.Images);
-
-					var updateJson = JsonConvert.SerializeObject(existingGallery);
-					StringContent updateContent = new StringContent(updateJson, Encoding.UTF8, "application/json");
-
-					var putResponse = await client.PutAsync("ProductImages", updateContent);
-					if (putResponse.IsSuccessStatusCode)
-					{
-						return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = createProductImageDto.ProductId });
-					}
-				}
+				await _productImageService.UpdateProductImageAsync(existingGallery);
+			}
+			else
+			{
+				await _productImageService.CreateProductImageAsync(createProductImageDto);
 			}
 
-			var jsonData = JsonConvert.SerializeObject(createProductImageDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("ProductImages", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = createProductImageDto.ProductId });
-			}
-
-			SetBreadcrumb("Yeni Görsel Ekle");
-			return View(createProductImageDto);
+			return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = createProductImageDto.ProductId });
 		}
 
 		[HttpGet]
@@ -106,53 +87,32 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		{
 			SetBreadcrumb("Görsel Galeri Güncelle");
 
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-
-			var responseMessage = await client.GetAsync("ProductImages/" + id);
-			if (responseMessage.IsSuccessStatusCode)
+			var value = await _productImageService.GetProductImageByIdAsync(id);
+			if (value != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateProductImageDto>(jsonData);
-				return View(values);
+				return View(value);
 			}
+
 			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateProductImage(UpdateProductImageDto updateProductImageDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateProductImageDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("ProductImages", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = updateProductImageDto.ProductId });
-			}
-			return View(updateProductImageDto);
+			await _productImageService.UpdateProductImageAsync(updateProductImageDto);
+			return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = updateProductImageDto.ProductId });
 		}
 
 		public async Task<IActionResult> DeleteProductImage(string id, string imageUrl)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
+			var values = await _productImageService.GetProductImageByIdAsync(id);
 
-			var responseMessage = await client.GetAsync("ProductImages/" + id);
-			if (responseMessage.IsSuccessStatusCode)
+			if (values != null && values.Images != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateProductImageDto>(jsonData);
+				values.Images.Remove(imageUrl);
+				await _productImageService.UpdateProductImageAsync(values);
 
-				if (values != null && values.Images != null)
-				{
-					values.Images.Remove(imageUrl);
-
-					var updateJson = JsonConvert.SerializeObject(values);
-					StringContent stringContent = new StringContent(updateJson, Encoding.UTF8, "application/json");
-					await client.PutAsync("ProductImages", stringContent);
-
-					return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = values.ProductId });
-				}
+				return RedirectToAction("ProductImageDetail", "ProductImage", new { area = "Admin", productId = values.ProductId });
 			}
 
 			return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });

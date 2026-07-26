@@ -53,8 +53,8 @@ namespace MultiShop.Catalog.Controllers
 			return Ok("İletişim mesajı başarıyla silindi.");
 		}
 
-		[HttpPatch("ChangeReadStatus/{id}")]
-		public async Task<IActionResult> ChangeReadStatus(string id, [FromBody] bool isRead)
+		[HttpGet("ChangeReadStatus/{id}/{isRead}")]
+		public async Task<IActionResult> ChangeReadStatus(string id, bool isRead)
 		{
 			await _contactService.ChangeIsReadStatusAsync(id, isRead);
 			return Ok("İletişim mesajının okundu durumu güncellendi.");

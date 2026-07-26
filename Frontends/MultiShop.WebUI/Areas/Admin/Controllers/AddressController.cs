@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.AddressDtos;
+using MultiShop.WebUI.Services.CatalogServices.AddressServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,11 +9,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class AddressController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IAddressService _addressService;
 
-		public AddressController(IHttpClientFactory httpClientFactory)
+		public AddressController(IAddressService addressService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_addressService = addressService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Adres Bilgisi", string moduleUrl = "/Admin/Address/Index")
@@ -26,18 +27,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Adres Bilgisi Listesi");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Addresses");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultAddressDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultAddressDto>());
+			var values = await _addressService.GetAllAddressesAsync();
+			return View(values);
 		}
 
 		[HttpGet]
@@ -50,59 +41,28 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateAddress(CreateAddressDto createAddressDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(createAddressDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Addresses", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Address", new { area = "Admin" });
-			}
-
-			return View(createAddressDto);
+			await _addressService.CreateAddressAsync(createAddressDto);
+			return RedirectToAction("Index", "Address", new { area = "Admin" });
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> UpdateAddress(string id)
 		{
 			SetBreadcrumb("Adres Bilgisi Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Addresses/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateAddressDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("Index", "Address", new { area = "Admin" });
+			var value = await _addressService.GetAddressByIdAsync(id);
+			return View(value);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateAddress(UpdateAddressDto updateAddressDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateAddressDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("Addresses", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Address", new { area = "Admin" });
-			}
-			return View(updateAddressDto);
+			await _addressService.UpdateAddressAsync(updateAddressDto);
+			return RedirectToAction("Index", "Address", new { area = "Admin" });
 		}
 
 		public async Task<IActionResult> DeleteAddress(string id)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.DeleteAsync("Addresses/" + id);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Address", new { area = "Admin" });
-			}
+			await _addressService.DeleteAddressAsync(id);
 			return RedirectToAction("Index", "Address", new { area = "Admin" });
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.CategoryDtos;
+using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,11 +9,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class CategoryController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ICategoryService _categoryService;
 
-		public CategoryController(IHttpClientFactory httpClientFactory)
+		public CategoryController(ICategoryService categoryService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_categoryService = categoryService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Kategoriler", string moduleUrl = "/Admin/Category/Index")
@@ -26,18 +27,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Kategori Listesi");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Categories");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultCategoryDto>());
+			var values = await _categoryService.GetAllCategoriesAsync();
+			return View(values);
 		}
 
 		[HttpGet]
@@ -50,59 +41,28 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(createCategoryDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Categories", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Category", new { area = "Admin" });
-			}
-
-			return View(createCategoryDto);
+			await _categoryService.CreateCategoryAsync(createCategoryDto);
+			return RedirectToAction("Index", "Category", new { area = "Admin" });
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> UpdateCategory(string id)
 		{
 			SetBreadcrumb("Kategori Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Categories/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateCategoryDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("Index", "Category", new { area = "Admin" });
+			var value = await _categoryService.GetCategoryByIdAsync(id);
+			return View(value);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateCategoryDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("Categories", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Category", new { area = "Admin" });
-			}
-			return View(updateCategoryDto);
+			await _categoryService.UpdateCategoryAsync(updateCategoryDto);
+			return RedirectToAction("Index", "Category", new { area = "Admin" });
 		}
 
 		public async Task<IActionResult> DeleteCategory(string id)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.DeleteAsync("Categories/" + id);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Category", new { area = "Admin" });
-			}
+			await _categoryService.DeleteCategoryAsync(id);
 			return RedirectToAction("Index", "Category", new { area = "Admin" });
 		}
 	}

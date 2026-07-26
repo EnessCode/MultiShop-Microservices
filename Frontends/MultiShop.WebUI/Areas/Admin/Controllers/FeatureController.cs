@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.FeatureDtos;
+using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-
 	public class FeatureController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IFeatureService _featureService;
 
-		public FeatureController(IHttpClientFactory httpClientFactory)
+		public FeatureController(IFeatureService featureService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_featureService = featureService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Öne Çıkan Özellikler", string moduleUrl = "/Admin/Feature/Index")
@@ -27,18 +27,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Öne Çıkan Özellik Listesi");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Features");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultFeatureDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultFeatureDto>());
+			var values = await _featureService.GetAllFeaturesAsync();
+			return View(values);
 		}
 
 		[HttpGet]
@@ -51,59 +41,29 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateFeature(CreateFeatureDto createFeatureDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(createFeatureDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("Features", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Feature", new { area = "Admin" });
-			}
-
-			return View(createFeatureDto);
+			await _featureService.CreateFeatureAsync(createFeatureDto);
+			return RedirectToAction("Index", "Feature", new { area = "Admin" });
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> UpdateFeature(string id)
 		{
 			SetBreadcrumb("Öne Çıkan Özellik Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Features/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateFeatureDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("Index", "Feature", new { area = "Admin" });
+			var value = await _featureService.GetFeatureByIdAsync(id);
+			return View(value);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateFeature(UpdateFeatureDto updateFeatureDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateFeatureDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+			await _featureService.UpdateFeatureAsync(updateFeatureDto);
+			return RedirectToAction("Index", "Feature", new { area = "Admin" });
 
-			var responseMessage = await client.PutAsync("Features", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Feature", new { area = "Admin" });
-			}
-			return View(updateFeatureDto);
 		}
 
 		public async Task<IActionResult> DeleteFeature(string id)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.DeleteAsync("Features/" + id);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "Feature", new { area = "Admin" });
-			}
+			await _featureService.DeleteFeatureAsync(id);
 			return RedirectToAction("Index", "Feature", new { area = "Admin" });
 		}
 	}

@@ -1,48 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
-using MultiShop.DtoLayer.Dtos.CommentDtos;
-using Newtonsoft.Json;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
+using MultiShop.WebUI.Services.CommentServices;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MultiShop.WebUI.ViewComponents.DefaultViewComponents
 {
 	public class FeatureProductsViewComponent : ViewComponent
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly IProductService _productService;
+		private readonly ICommentService _commentService;
 
-		public FeatureProductsViewComponent(IHttpClientFactory httpClientFactory)
+		public FeatureProductsViewComponent(IProductService productService, ICommentService commentService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_productService = productService;
+			_commentService = commentService;
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("Products");
+			var values = await _productService.GetAllProductsAsync();
 
-			if (responseMessage.IsSuccessStatusCode)
+			if (values != null)
 			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
-
-				var commentClient = _httpClientFactory.CreateClient("CommentApi");
 				var ratings = new Dictionary<string, double>();
 
 				foreach (var product in values)
 				{
-					var commentResponse = await commentClient.GetAsync("Comments/product/" + product.Id);
-					if (commentResponse.IsSuccessStatusCode)
-					{
-						var commentJson = await commentResponse.Content.ReadAsStringAsync();
-						var comments = JsonConvert.DeserializeObject<List<ResultCommentDto>>(commentJson);
-						ratings[product.Id] = comments != null && comments.Count > 0 ? comments.Average(x => x.Rating) : 0;
-					}
-					else
-					{
-						ratings[product.Id] = 0;
-					}
+					var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
+					ratings[product.Id] = comments != null && comments.Any() ? comments.Average(x => x.Rating) : 0;
 				}
+
 				ViewBag.Ratings = ratings;
-			
 				return View(values);
 			}
 

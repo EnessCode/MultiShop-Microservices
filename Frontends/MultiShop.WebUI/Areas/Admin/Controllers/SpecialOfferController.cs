@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.SpecialOfferDtos;
+using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,11 +9,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class SpecialOfferController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ISpecialOfferService _specialOfferService;
 
-		public SpecialOfferController(IHttpClientFactory httpClientFactory)
+		public SpecialOfferController(ISpecialOfferService specialOfferService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_specialOfferService = specialOfferService;
 		}
 
 		private void SetBreadcrumb(string activePage, string moduleName = "Mini Vitrin Teklifleri", string moduleUrl = "/Admin/SpecialOffer/Index")
@@ -26,18 +27,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			SetBreadcrumb("Mini Vitrin Teklif Listesi");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("SpecialOffers");
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<List<ResultSpecialOfferDto>>(jsonData);
-				return View(values);
-			}
-
-			return View(new List<ResultSpecialOfferDto>());
+			var values = await _specialOfferService.GetAllSpecialOffersAsync();
+			return View(values);
 		}
 
 		[HttpGet]
@@ -50,59 +41,28 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateSpecialOffer(CreateSpecialOfferDto createSpecialOfferDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(createSpecialOfferDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PostAsync("SpecialOffers", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
-			}
-
-			return View(createSpecialOfferDto);
+			await _specialOfferService.CreateSpecialOfferAsync(createSpecialOfferDto);
+			return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> UpdateSpecialOffer(string id)
 		{
 			SetBreadcrumb("Mini Teklif Güncelle");
-
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.GetAsync("SpecialOffers/" + id);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				var jsonData = await responseMessage.Content.ReadAsStringAsync();
-				var values = JsonConvert.DeserializeObject<UpdateSpecialOfferDto>(jsonData);
-				return View(values);
-			}
-			return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
+			var value = await _specialOfferService.GetSpecialOfferByIdAsync(id);
+			return View(value);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateSpecialOffer(UpdateSpecialOfferDto updateSpecialOfferDto)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var jsonData = JsonConvert.SerializeObject(updateSpecialOfferDto);
-			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-			var responseMessage = await client.PutAsync("SpecialOffers", stringContent);
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
-			}
-			return View(updateSpecialOfferDto);
+			await _specialOfferService.UpdateSpecialOfferAsync(updateSpecialOfferDto);
+			return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
 		}
 
 		public async Task<IActionResult> DeleteSpecialOffer(string id)
 		{
-			var client = _httpClientFactory.CreateClient("CatalogApi");
-			var responseMessage = await client.DeleteAsync("SpecialOffers/" + id);
-
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
-			}
+			await _specialOfferService.DeleteSpecialOfferAsync(id);
 			return RedirectToAction("Index", "SpecialOffer", new { area = "Admin" });
 		}
 	}
