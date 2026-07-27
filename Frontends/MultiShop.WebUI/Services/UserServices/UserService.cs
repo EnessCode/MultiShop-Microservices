@@ -1,4 +1,4 @@
-﻿using MultiShop.WebUI.Models;
+﻿using MultiShop.WebUI.Models.UserViewModels;
 
 namespace MultiShop.WebUI.Services.UserServices
 {

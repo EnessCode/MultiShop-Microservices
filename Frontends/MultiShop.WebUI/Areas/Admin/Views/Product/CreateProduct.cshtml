@@ -1,78 +1,99 @@
-﻿@model CreateProductDto
+﻿@model MultiShop.WebUI.Models.ProductViewModels.CreateProductCompositeViewModel
 
 @{
-    ViewData["Title"] = "Yeni Ürün Ekle";
+	ViewData["Title"] = "Yeni Ürün Ekle";
 }
 
 <section class="content container-fluid" style="padding: 0;">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="chart-box">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="chart-box">
 
-                <div style="margin-bottom: 25px;">
-                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">MultiShop sistemine yeni bir ürün tanımlamak için aşağıdaki formu eksiksiz doldurunuz.</p>
-                </div>
+				<div style="margin-bottom: 25px;">
+					<p style="color: #5e6e82; font-size: 14px; margin: 0;">MultiShop sistemine yeni bir ürün tanımlamak için aşağıdaki formu eksiksiz doldurunuz.</p>
+				</div>
 
-                <form method="post" action="/Admin/Product/CreateProduct">
+				<form method="post" action="/Admin/Product/CreateProduct">
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Adı</label>
-                        <input type="text" class="form-control" asp-for="Name" name="Name" required placeholder="Örn: Laptop, Akıllı Telefon..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
-                    </div>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Adı</label>
+						<input type="text" class="form-control" asp-for="Name" required placeholder="Örn: Laptop, Akıllı Telefon..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Satış Fiyatı (₺)</label>
-                        <input type="text" class="form-control" asp-for="Price" name="Price" required placeholder="Örn: 1250.00" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
-                    </div>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Satış Fiyatı (₺)</label>
+						<input type="text" class="form-control" asp-for="Price" required placeholder="Örn: 1250.00" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Eski Fiyat (₺) - <small class="text-muted">İndirim yoksa boş bırakın</small></label>
-                        <input type="text" class="form-control" asp-for="OldPrice" name="OldPrice" placeholder="Örn: 1470.00" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
-                    </div>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Eski Fiyat (₺) - <small class="text-muted">İndirim yoksa boş bırakın</small></label>
+						<input type="text" class="form-control" asp-for="OldPrice" placeholder="Örn: 1470.00" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Görsel URL</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" name="ImageUrl" id="ImageUrl" oninput="updatePreview()" placeholder="Örn: https://.../gorsel.jpg" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Görsel URL</label>
+						<input type="text" class="form-control" asp-for="ImageUrl" id="ImageUrl" oninput="updatePreview()" placeholder="Örn: https://.../gorsel.jpg" style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
 
-                        <div style="margin-top: 15px;">
-                            <p style="font-size: 13px; color: #6c757d; margin-bottom: 5px;"><i class="fa fa-image"></i> Görsel Ön İzleme</p>
-                            <img id="imagePreview" src="" alt="Önizleme" style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px dashed #ced4da; display: none; padding: 4px;" />
-                        </div>
-                    </div>
+						<div style="margin-top: 15px;">
+							<p style="font-size: 13px; color: #6c757d; margin-bottom: 5px;"><i class="fa fa-image"></i> Görsel Ön İzleme</p>
+							<img id="imagePreview" src="" alt="Önizleme" style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px dashed #ced4da; display: none; padding: 4px;" />
+						</div>
+					</div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Açıklaması</label>
-                        <textarea class="form-control" asp-for="Description" name="Description" rows="4" placeholder="Ürün hakkında detaylı bilgi giriniz..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;"></textarea>
-                    </div>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Açıklaması</label>
+						<textarea class="form-control" asp-for="Description" rows="4" placeholder="Ürün hakkında kısa bilgi giriniz..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;"></textarea>
+					</div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Bağlı Olduğu Kategori</label>
-                        <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.CategoryValues" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none; height: auto;">
-                            <option value="">-- Lütfen Bir Kategori Seçiniz --</option>
-                        </select>
-                    </div>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Ürün Ek Bilgileri (Information)</label>
+						<textarea class="form-control" asp-for="Information" rows="4" placeholder="Teknik detaylar, kutu içeriği vb. bilgileri giriniz..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;"></textarea>
+					</div>
 
-                    <div style="margin-top: 30px;">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Ürünü Kaydet</button>
-                        <a href="/Admin/Product/ProductListWithCategory" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
-                    </div>
-                </form>
+					<div class="form-group" style="margin-bottom: 20px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">Bağlı Olduğu Kategori</label>
+						<select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.CategoryValues" required style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none; height: auto;">
+							<option value="">-- Lütfen Bir Kategori Seçiniz --</option>
+						</select>
+					</div>
 
-            </div>
-        </div>
-    </div>
+					<hr style="margin: 30px 0;" />
+					<h5 style="color: #495057; margin-bottom: 20px;"><i class="fa fa-images"></i> Galeri Görselleri (Opsiyonel)</h5>
+
+					<div class="form-group" style="margin-bottom: 15px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">1. Galeri Görseli URL</label>
+						<input type="text" class="form-control" name="GalleryImages[0]" placeholder="https://..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
+					<div class="form-group" style="margin-bottom: 15px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">2. Galeri Görseli URL</label>
+						<input type="text" class="form-control" name="GalleryImages[1]" placeholder="https://..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
+					<div class="form-group" style="margin-bottom: 15px;">
+						<label style="font-weight: 500; color: #495057; margin-bottom: 8px;">3. Galeri Görseli URL</label>
+						<input type="text" class="form-control" name="GalleryImages[2]" placeholder="https://..." style="border-radius: 6px; border: 1px solid #edf2f9; padding: 10px 15px; box-shadow: none;" />
+					</div>
+
+					<div style="margin-top: 30px;">
+						<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Ürünü Kaydet</button>
+						<a href="/Admin/Product/ProductListWithCategory" class="btn btn-danger" style="margin-left: 10px;"><i class="fa fa-times"></i> İptal</a>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
 </section>
 
 <script>
-    function updatePreview() {
-        var url = document.getElementById('ImageUrl').value;
-        var preview = document.getElementById('imagePreview');
-        if (url) {
-            preview.src = url;
-            preview.style.display = 'block';
-        } else {
-            preview.src = '';
-            preview.style.display = 'none';
-        }
-    }
+	function updatePreview() {
+		var url = document.getElementById('ImageUrl').value;
+		var preview = document.getElementById('imagePreview');
+		if (url) {
+			preview.src = url;
+			preview.style.display = 'block';
+		} else {
+			preview.src = '';
+			preview.style.display = 'none';
+		}
+	}
 </script>

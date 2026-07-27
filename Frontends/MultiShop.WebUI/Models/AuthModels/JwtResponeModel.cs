@@ -1,4 +1,4 @@
-﻿namespace MultiShop.WebUI.Models
+﻿namespace MultiShop.WebUI.Models.AuthModels
 {
 	public class JwtResponeModel
 	{
