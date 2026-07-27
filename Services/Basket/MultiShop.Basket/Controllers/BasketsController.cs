@@ -37,11 +37,10 @@ namespace MultiShop.Basket.Controllers
 			return Ok("Sepetteki değişiklikler başarıyla kaydedildi.");
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> DeleteBasket()
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteBasket(string id)
 		{
-			var userId = _loginService.GetUserId;
-			await _basketService.DeleteBasket(userId);
+			await _basketService.DeleteBasket(id);
 			return Ok("Sepet başarıyla silindi.");
 		}
 	}

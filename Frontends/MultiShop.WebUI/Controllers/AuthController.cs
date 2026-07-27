@@ -34,7 +34,7 @@ namespace MultiShop.WebUI.Controllers
 		public async Task<IActionResult> Login(SignInDto signInDto)
 		{
 			await _identityService.SignIn(signInDto);
-			return RedirectToAction("Index", "User");
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpPost]

@@ -1,4 +1,11 @@
-﻿<div class="col-lg-4">
+﻿@model MultiShop.DtoLayer.Dtos.BasketDtos.BasketTotalDto
+@{
+	decimal subTotal = Model != null ? Model.TotalPrice : 0;
+	decimal shipping = subTotal > 0 ? 10 : 0;
+	decimal grandTotal = subTotal + shipping;
+}
+
+<div class="col-lg-4">
 	<form class="mb-4" action="">
 		<div class="input-group border rounded-pill overflow-hidden p-1 bg-white shadow-sm">
 			<input type="text" class="form-control bg-transparent border-0 ps-3 shadow-none" placeholder="Kupon Kodu" style="font-size: 0.9rem;">
@@ -15,15 +22,15 @@
 		<div class="card-body p-4">
 			<div class="d-flex justify-content-between mb-3 border-bottom pb-2">
 				<span class="text-secondary fw-medium">Ara Toplam</span>
-				<span class="fw-semibold text-dark">300,00 TL</span>
+				<span class="fw-semibold text-dark">@subTotal.ToString("N2") TL</span>
 			</div>
 			<div class="d-flex justify-content-between mb-3 border-bottom pb-2">
 				<span class="text-secondary fw-medium">Kargo</span>
-				<span class="fw-semibold text-success">10,00 TL</span>
+				<span class="fw-semibold text-success">@shipping.ToString("N2") TL</span>
 			</div>
 			<div class="d-flex justify-content-between align-items-center mt-3 pt-2 mb-4">
 				<h5 class="fw-bold m-0" style="font-size: 1.15rem;">Genel Toplam</h5>
-				<h4 class="text-primary fw-bold m-0" style="font-size: 1.4rem;">310,00 TL</h4>
+				<h4 class="text-primary fw-bold m-0" style="font-size: 1.4rem;">@grandTotal.ToString("N2") TL</h4>
 			</div>
 			<button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm transition-up">
 				Ödeme Adımına Geç <i class="fa fa-arrow-right ms-2" style="font-size: 0.85rem;"></i>
