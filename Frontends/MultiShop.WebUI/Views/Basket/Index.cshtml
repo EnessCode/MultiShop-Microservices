@@ -22,3 +22,72 @@
 			box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
 		}
 </style>
+
+@section Scripts {
+	<script>
+		function updateBasketItem(productId, changeValue) {
+			const formData = new URLSearchParams();
+			formData.append('id', productId);
+			formData.append('change', changeValue);
+
+			fetch('/Basket/UpdateQuantity', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (!data.success) {
+					alert("Bir hata oluştu!");
+					return;
+				}
+
+				if (data.isRemoved) {
+					document.getElementById('row-' + productId).remove();
+				} else {
+					document.getElementById('quantity-' + productId).value = data.newQuantity;
+					document.getElementById('itemTotal-' + productId).innerText = data.itemTotal + ' TL';
+				}
+
+				document.getElementById('summary-subtotal').innerText = data.subTotal + ' TL';
+				document.getElementById('summary-grandtotal').innerText = data.grandTotal + ' TL';
+
+				const shippingEl = document.getElementById('summary-shipping');
+				shippingEl.innerText = data.shippingText;
+
+				if(data.shippingText === "Bedava") {
+					shippingEl.className = "fw-bold text-success";
+				} else {
+					shippingEl.className = "fw-semibold text-danger";
+				}
+
+				if (data.hasDiscount) {
+					const discountEl = document.getElementById('summary-discount');
+					if(discountEl) discountEl.innerText = '- ' + data.discountAmount + ' TL';
+				}
+
+				const alertContainer = document.getElementById('summary-alert-container');
+				if (data.totalAfterDiscount <= 0) {
+					alertContainer.innerHTML = ''; 
+				}
+				else if (data.totalAfterDiscount < data.freeShippingLimit) {
+					alertContainer.innerHTML = `
+						<div class="alert alert-warning py-2 px-3 text-center rounded-3 mb-4" style="font-size: 0.85rem;">
+							Ücretsiz kargo için <strong class="text-danger">${data.amountLeft} TL</strong> daha alışveriş yapın!
+						</div>`;
+				}
+				else {
+					alertContainer.innerHTML = `
+						<div class="alert alert-success py-2 px-3 text-center rounded-3 mb-4" style="font-size: 0.85rem;">
+							<i class="fa fa-truck me-1"></i> Kargonuz <strong>Bedava!</strong>
+						</div>`;
+				}
+			})
+			.catch(error => {
+				console.error("Hata:", error);
+			});
+		}
+	</script>
+}

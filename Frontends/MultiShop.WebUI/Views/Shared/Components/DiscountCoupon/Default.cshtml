@@ -1,0 +1,15 @@
+﻿@if (TempData["CouponError"] != null)
+{
+	<div class="alert alert-danger py-2 px-3 rounded-3 mb-3 shadow-sm" style="font-size: 0.85rem;">
+		<i class="fa fa-exclamation-triangle me-2"></i> @TempData["CouponError"]
+	</div>
+}
+
+<form class="mb-4" asp-controller="Discount" asp-action="ConfirmCoupon" method="post">
+	<div class="input-group border rounded-pill overflow-hidden p-1 bg-white shadow-sm">
+
+		<input type="text" name="code" class="form-control bg-transparent border-0 ps-3 shadow-none" placeholder="Kupon Kodu" style="font-size: 0.9rem;">
+
+		<button class="btn btn-primary rounded-pill px-4 fw-semibold" type="submit" style="font-size: 0.85rem;">Kuponu Uygula</button>
+	</div>
+</form>

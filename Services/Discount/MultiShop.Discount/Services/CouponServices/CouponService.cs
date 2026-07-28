@@ -32,14 +32,14 @@ namespace MultiShop.Discount.Services.CouponServices
 		{
 			string query = "Delete from Coupons where Id=@id";
 			var parameters = new DynamicParameters();
-			parameters.Add("id", id);
+			parameters.Add("@id", id); 
 			using (var connection = _context.CreateConnection())
 			{
 				await connection.ExecuteAsync(query, parameters);
 			}
 		}
 
-		public async Task<List<ResultCouponDto>> GetAllCouponAsync()
+		public async Task<List<ResultCouponDto>> GetAllCouponsAsync()
 		{
 			string query = "Select * from Coupons";
 			using (var connection = _context.CreateConnection())
@@ -49,11 +49,23 @@ namespace MultiShop.Discount.Services.CouponServices
 			}
 		}
 
+		public async Task<ResultCouponDto> GetCouponByCodeAsync(string code)
+		{
+			string query = "Select * from Coupons where Code=@code";
+			var parameters = new DynamicParameters();
+			parameters.Add("@code", code);
+			using (var connection = _context.CreateConnection())
+			{
+				var values = await connection.QueryFirstOrDefaultAsync<ResultCouponDto>(query, parameters);
+				return values;
+			}
+		}
+
 		public async Task<GetCouponByIdDto> GetCouponByIdAsync(int id)
 		{
 			string query = "Select * from Coupons where Id=@id";
 			var parameters = new DynamicParameters();
-			parameters.Add("id", id);
+			parameters.Add("@id", id);
 			using (var connection = _context.CreateConnection())
 			{
 				var value = await connection.QueryFirstOrDefaultAsync<GetCouponByIdDto>(query, parameters);

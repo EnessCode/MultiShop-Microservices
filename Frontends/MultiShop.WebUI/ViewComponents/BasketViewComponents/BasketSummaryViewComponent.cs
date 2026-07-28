@@ -14,7 +14,7 @@ namespace MultiShop.WebUI.ViewComponents.BasketViewComponents
 
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			var basketTotal = await _basketService.GetBasket();
+			var basketTotal = await _basketService.GetBasketAsync();
 			return View(basketTotal);
 		}
 	}

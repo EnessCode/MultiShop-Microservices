@@ -20,9 +20,9 @@ namespace MultiShop.Discount.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> CouponList()
+		public async Task<IActionResult> GetAllCoupons()
 		{
-			var values = await _couponService.GetAllCouponAsync();
+			var values = await _couponService.GetAllCouponsAsync();
 			return Ok(values);
 		}
 
@@ -30,6 +30,13 @@ namespace MultiShop.Discount.Controllers
 		public async Task<IActionResult> GetCouponById(int id)
 		{
 			var value = await _couponService.GetCouponByIdAsync(id);
+			return Ok(value);
+		}
+
+		[HttpGet("code/{code}")]
+		public async Task<IActionResult> GetCouponByCode(string code)
+		{
+			var value = await _couponService.GetCouponByCodeAsync(code);
 			return Ok(value);
 		}
 
@@ -47,7 +54,7 @@ namespace MultiShop.Discount.Controllers
 			return Ok("İndirim kuponu başarıyla güncellendi.");
 		}
 
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCoupon(int id)
 		{
 			await _couponService.DeleteCouponAsync(id);

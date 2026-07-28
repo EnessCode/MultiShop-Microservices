@@ -4,10 +4,11 @@ namespace MultiShop.Discount.Services.CouponServices
 {
 	public interface ICouponService
 	{
-		Task<List<ResultCouponDto>> GetAllCouponAsync();
+		Task<List<ResultCouponDto>> GetAllCouponsAsync();
 		Task<GetCouponByIdDto> GetCouponByIdAsync(int id);
 		Task CreateCouponAsync(CreateCouponDto createCouponDto);
 		Task UpdateCouponAsync(UpdateCouponDto updateCouponDto);
 		Task DeleteCouponAsync(int id);
+		Task<ResultCouponDto> GetCouponByCodeAsync(string code);
 	}
 }

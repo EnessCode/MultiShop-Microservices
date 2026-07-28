@@ -16,7 +16,7 @@
 				<tbody class="align-middle">
 					@foreach (var item in Model)
 					{
-						<tr class="border-bottom">
+						<tr class="border-bottom" id="row-@item.ProductId">
 							<td class="text-start ps-4 py-3 align-middle">
 								<div class="d-flex align-items-center gap-3">
 									<img src="@item.ProductImageUrl" alt="Ürün" class="rounded-3 border" style="width: 55px; height: 55px; object-fit: cover;">
@@ -26,16 +26,18 @@
 							<td class="fw-medium align-middle" style="font-size: 0.95rem;">@item.Price.ToString("N2") TL</td>
 							<td class="align-middle">
 								<div class="input-group quantity mx-auto border rounded-pill overflow-hidden bg-light" style="width: 110px; height: 35px;">
-									<button class="btn btn-sm btn-link text-secondary border-0 px-2 shadow-none btn-minus" type="button">
+									<button class="btn btn-sm btn-link text-secondary border-0 px-2 shadow-none" type="button" onclick="updateBasketItem('@item.ProductId', -1)">
 										<i class="fa fa-minus" style="font-size: 0.8rem;"></i>
 									</button>
-									<input type="text" class="form-control form-control-sm bg-transparent border-0 text-center fw-semibold text-dark shadow-none p-0" value="@item.Quantity" readonly>
-									<button class="btn btn-sm btn-link text-secondary border-0 px-2 shadow-none btn-plus" type="button">
+
+									<input type="text" id="quantity-@item.ProductId" class="form-control form-control-sm bg-transparent border-0 text-center fw-semibold text-dark shadow-none p-0" value="@item.Quantity" readonly>
+
+									<button class="btn btn-sm btn-link text-secondary border-0 px-2 shadow-none" type="button" onclick="updateBasketItem('@item.ProductId', 1)">
 										<i class="fa fa-plus" style="font-size: 0.8rem;"></i>
 									</button>
 								</div>
 							</td>
-							<td class="fw-bold text-dark align-middle" style="font-size: 0.95rem;">@((item.Price * item.Quantity).ToString("N2")) TL</td>
+							<td class="fw-bold text-dark align-middle" id="itemTotal-@item.ProductId" style="font-size: 0.95rem;">@((item.Price * item.Quantity).ToString("N2")) TL</td>
 							<td class="pe-4 align-middle">
 								<a href="/Basket/RemoveBasketItem/@item.ProductId" class="btn btn-sm btn-outline-danger rounded-circle d-inline-flex align-items-center justify-content-center p-0 mx-auto" style="width: 32px; height: 32px;" title="Ürünü Sil">
 									<i class="fa fa-times" style="font-size: 0.85rem;"></i>

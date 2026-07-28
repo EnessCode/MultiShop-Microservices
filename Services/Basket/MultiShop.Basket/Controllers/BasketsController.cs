@@ -25,7 +25,7 @@ namespace MultiShop.Basket.Controllers
 		{
 			var user = User.Claims;
 			var userId = _loginService.GetUserId;
-			var values = await _basketService.GetBasket(userId);
+			var values = await _basketService.GetBasketAsync(userId);
 			return Ok(values);
 		}
 
@@ -33,14 +33,14 @@ namespace MultiShop.Basket.Controllers
 		public async Task<IActionResult> SaveMyBasket(BasketTotalDto basketTotalDto)
 		{
 			basketTotalDto.UserId = _loginService.GetUserId;
-			await _basketService.SaveBasket(basketTotalDto);
+			await _basketService.SaveBasketAsync(basketTotalDto);
 			return Ok("Sepetteki değişiklikler başarıyla kaydedildi.");
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBasket(string id)
 		{
-			await _basketService.DeleteBasket(id);
+			await _basketService.DeleteBasketAsync(id);
 			return Ok("Sepet başarıyla silindi.");
 		}
 	}
