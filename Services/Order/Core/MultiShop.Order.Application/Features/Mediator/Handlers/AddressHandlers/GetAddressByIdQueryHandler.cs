@@ -23,10 +23,15 @@ namespace MultiShop.Order.Application.Features.Mediator.Handlers.AddressHandlers
 			return new GetAddressByIdQueryResult
 			{
 				Id = values.Id,
+				UserId = values.UserId,
+				Name = values.Name,
+				Surname = values.Surname,
+				Email = values.Email,
+				Phone = values.Phone,
 				City = values.City,
 				District = values.District,
 				Detail = values.Detail,
-				UserId = values.UserId
+				OrderNote = values.OrderNote
 			};
 		}
 	}

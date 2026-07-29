@@ -11,9 +11,9 @@ namespace MultiShop.WebUI.Services.UserServices
 			_httpClient = httpClient;
 		}
 
-		public async Task<UserDetailViewModel> GetUserInfo()
+		public async Task<UserDetailViewModel> GetUserInfoAsync()
 		{
-			return await _httpClient.GetFromJsonAsync<UserDetailViewModel>("user/getuser");
+			return await _httpClient.GetFromJsonAsync<UserDetailViewModel>("api/user/getuser");
 		}
 	}
 }

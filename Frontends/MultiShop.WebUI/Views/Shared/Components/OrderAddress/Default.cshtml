@@ -1,0 +1,49 @@
+﻿@model CreateOrderAddressDto
+
+<div class="card border-0 shadow-sm rounded-4 bg-white mb-4">
+	<div class="card-header bg-white border-bottom-0 pt-4 px-4 pb-2">
+		<h5 class="fw-bold m-0 text-uppercase tracking-wide border-start border-primary border-3 ps-3" style="font-size: 1.1rem;">
+			Fatura Adresi
+		</h5>
+	</div>
+	<div class="card-body p-4">
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">Adınız</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="Name" placeholder="Örn: Ahmet">
+			</div>
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">Soyadınız</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="Surname" placeholder="Örn: Yılmaz">
+			</div>
+
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">E-posta Adresi</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="email" asp-for="Email" placeholder="ornek@email.com">
+			</div>
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">Cep Telefonu</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="Phone" placeholder="+90 (5XX) XXX XX XX">
+			</div>
+
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">Şehir</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="City" placeholder="Örn: İstanbul">
+			</div>
+			<div class="col-md-6 mb-3">
+				<label class="form-label small fw-semibold text-secondary">İlçe</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="District" placeholder="Örn: Kadıköy">
+			</div>
+
+			<div class="col-12 mb-3">
+				<label class="form-label small fw-semibold text-secondary">Açık Adres</label>
+				<input class="form-control rounded-3 py-2 shadow-none" type="text" asp-for="Detail" placeholder="Mahalle, Cadde, Sokak, Bina No, Daire">
+			</div>
+
+			<div class="col-12 mb-1">
+				<label class="form-label small fw-semibold text-secondary">Sipariş Notu (İsteğe Bağlı)</label>
+				<textarea class="form-control rounded-3 py-2 shadow-none" rows="3" asp-for="OrderNote" placeholder="Siparişinizle ilgili eklemek istediğiniz özel notlar veya kargo firması için talimatlar..."></textarea>
+			</div>
+		</div>
+	</div>
+</div>

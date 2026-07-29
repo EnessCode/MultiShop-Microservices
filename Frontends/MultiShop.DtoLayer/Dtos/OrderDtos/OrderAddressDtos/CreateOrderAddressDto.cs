@@ -1,13 +1,12 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiShop.Order.Application.Features.Mediator.Commands.AddressCommands
+namespace MultiShop.DtoLayer.Dtos.OrderDtos.OrderAddressDtos
 {
-	public class CreateAddressCommand : IRequest
+	public class CreateOrderAddressDto
 	{
 		public string UserId { get; set; }
 		public string Name { get; set; }

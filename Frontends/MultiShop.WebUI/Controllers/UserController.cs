@@ -14,7 +14,7 @@ namespace MultiShop.WebUI.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var values = await _userService.GetUserInfo();
+			var values = await _userService.GetUserInfoAsync();
 			return View();
 		}
 	}

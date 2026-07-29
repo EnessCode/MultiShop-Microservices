@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Ödeme Yap";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 bg-white p-4 p-md-5">
+
+                <h4 class="fw-bold text-center mb-4 text-dark">Güvenli Ödeme</h4>
+
+                <div class="credit-card-box shadow-lg mb-4">
+                    <div class="card-chip"></div>
+                    <div class="card-logo">
+                        <i class="fab fa-cc-visa fa-3x" id="card-type-icon"></i>
+                    </div>
+                    <div class="card-number mt-4" id="card-number-display">
+                        #### #### #### ####
+                    </div>
+                    <div class="d-flex justify-content-between mt-4">
+                        <div>
+                            <span class="card-label d-block">Kart Sahibi</span>
+                            <span class="card-value text-uppercase" id="card-name-display">AD SOYAD</span>
+                        </div>
+                        <div class="text-end">
+                            <span class="card-label d-block">SKT</span>
+                            <span class="card-value" id="card-expiry-display">AA/YY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-controller="Payment" asp-action="Index" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">Kart Üzerindeki İsim</label>
+                        <input type="text" class="form-control rounded-3 py-2 shadow-none" name="cardName" id="cardName" placeholder="Örn: Ahmet Yılmaz" required autocomplete="off">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">Kart Numarası</label>
+                        <input type="text" class="form-control rounded-3 py-2 shadow-none" name="cardNumber" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required autocomplete="off">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-4">
+                            <label class="form-label small fw-semibold text-secondary">Son Kullanma (AA/YY)</label>
+                            <input type="text" class="form-control rounded-3 py-2 shadow-none" name="cardExpiry" id="cardExpiry" placeholder="MM/YY" maxlength="5" required autocomplete="off">
+                        </div>
+                        <div class="col-6 mb-4">
+                            <label class="form-label small fw-semibold text-secondary">CVV</label>
+                            <input type="password" class="form-control rounded-3 py-2 shadow-none" name="cardCvv" id="cardCvv" placeholder="***" maxlength="3" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm transition-up">
+                        Ödemeyi Tamamla <i class="fas fa-lock ms-2"></i>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .credit-card-box {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border-radius: 20px;
+        color: white;
+        padding: 25px;
+        position: relative;
+        height: 220px;
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card-chip {
+        width: 50px;
+        height: 35px;
+        background: linear-gradient(135deg, #e5b958 0%, #f6d365 100%);
+        border-radius: 5px;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        opacity: 0.8;
+    }
+
+    .card-number {
+        font-size: 1.6rem;
+        letter-spacing: 2px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 55px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .card-label {
+        font-size: 0.7rem;
+        opacity: 0.7;
+        letter-spacing: 1px;
+    }
+
+    .card-value {
+        font-size: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cardNumberInput = document.getElementById('cardNumber');
+            const cardNameInput = document.getElementById('cardName');
+            const cardExpiryInput = document.getElementById('cardExpiry');
+
+            const cardNumberDisplay = document.getElementById('card-number-display');
+            const cardNameDisplay = document.getElementById('card-name-display');
+            const cardExpiryDisplay = document.getElementById('card-expiry-display');
+            const cardIcon = document.getElementById('card-type-icon');
+
+            cardNumberInput.addEventListener('input', function (e) {
+                let target = e.target;
+                let val = target.value.replace(/\D/g, '');
+
+                if (val.length > 0) {
+                    val = val.match(new RegExp('.{1,4}', 'g')).join(' ');
+                }
+                target.value = val;
+
+                cardNumberDisplay.innerText = val !== '' ? val : '#### #### #### ####';
+
+                if (val.startsWith('4')) {
+                    cardIcon.className = 'fab fa-cc-visa fa-3x';
+                } else if (val.startsWith('5')) {
+                    cardIcon.className = 'fab fa-cc-mastercard fa-3x';
+                } else {
+                    cardIcon.className = 'fas fa-credit-card fa-3x';
+                }
+            });
+
+            cardNameInput.addEventListener('input', function (e) {
+                let val = e.target.value;
+                cardNameDisplay.innerText = val !== '' ? val : 'AD SOYAD';
+            });
+
+            cardExpiryInput.addEventListener('input', function (e) {
+                let val = e.target.value.replace(/\D/g, ''); 
+
+                if (val.length > 2) {
+                    val = val.substring(0, 2) + '/' + val.substring(2, 4);
+                }
+                e.target.value = val;
+                cardExpiryDisplay.innerText = val !== '' ? val : 'AA/YY';
+            });
+        });
+    </script>
+}

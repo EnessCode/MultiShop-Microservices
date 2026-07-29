@@ -20,10 +20,15 @@ namespace MultiShop.Order.Application.Features.Mediator.Handlers.AddressHandlers
 		{
 			await _repository.CreateAsync(new Address
 			{
+				UserId = request.UserId,
+				Name = request.Name,
+				Surname = request.Surname,
+				Email = request.Email,
+				Phone = request.Phone,
 				City = request.City,
 				District = request.District,
 				Detail = request.Detail,
-				UserId = request.UserId
+				OrderNote = request.OrderNote
 			});
 		}
 	}

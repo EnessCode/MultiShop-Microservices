@@ -1,0 +1,25 @@
+﻿@{
+	ViewData["Title"] = "Ödeme Adımı";
+}
+
+
+<div class="container-fluid">
+
+	<form asp-controller="Order" asp-action="Index" method="post">
+		<div class="row px-xl-5">
+			<div class="col-lg-8">
+
+				@await Component.InvokeAsync("OrderAddress")
+
+			</div>
+
+			<div class="col-lg-4">
+
+				@await Component.InvokeAsync("OrderSummary")
+
+				@await Component.InvokeAsync("OrderPaymentMethod")
+
+			</div>
+		</div>
+	</form>
+</div>
