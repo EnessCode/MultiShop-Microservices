@@ -1,0 +1,72 @@
+﻿@using MultiShop.DtoLayer.Dtos.OrderDtos.OrderingDtos
+@model List<ResultOrderingByUserIdDtos>
+
+<div class="col-lg-12 grid-margin stretch-card mt-3">
+    <div class="card order-card border-0 bg-white">
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="card-title fw-bold text-dark mb-1">Siparişlerim</h4>
+                    <p class="text-muted small mb-0">
+                        Geçmiş siparişlerinizi ve güncel durumlarını buradan takip edebilirsiniz.
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table modern-table table-borderless w-100 mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Sipariş No</th>
+                            <th style="width: 35%;">Sipariş Tarihi</th>
+                            <th style="width: 25%;">Toplam Tutar</th>
+                            <th class="text-end" style="width: 20%;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td>
+                                        <span class="badge-soft-primary">Sipariş #@count</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="mdi mdi-calendar-clock text-muted me-2" style="font-size: 1.2rem;"></i>
+                                            <span>@item.OrderDate.ToString("dd MMM yyyy, HH:mm")</span>
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold text-dark" style="font-size: 1.05rem;">
+                                        @item.TotalPrice.ToString("C2")
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="/User/MyOrder/OrderDetail/@item.Id" class="btn btn-outline-primary btn-sm btn-modern">
+                                            Detayları Gör <i class="mdi mdi-chevron-right ms-1"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/2748/2748614.png" alt="Boş Sipariş" style="width: 70px; opacity: 0.6;" class="mb-3" />
+                                    <h5 class="fw-bold text-dark">Henüz Siparişiniz Bulunmuyor</h5>
+                                    <p class="text-muted small mb-4">Mağazamızı ziyaret ederek alışverişe başlayabilirsiniz.</p>
+                                    <a href="/Home/Index" class="btn btn-primary btn-modern px-4">Alışverişe Başla</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

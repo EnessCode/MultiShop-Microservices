@@ -20,6 +20,7 @@ using MultiShop.WebUI.Services.DiscountServices.CouponServices;
 using MultiShop.WebUI.Services.IdentityServices;
 using MultiShop.WebUI.Services.LoginServices;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
+using MultiShop.WebUI.Services.OrderServices.OrderingServices;
 using MultiShop.WebUI.Services.UserServices;
 using MultiShop.WebUI.Settings;
 
@@ -94,6 +95,10 @@ namespace MultiShop.WebUI.Extensions
 
 			services.AddHttpClient<IBasketService, BasketService>(opt =>
 					opt.BaseAddress = basketUri)
+				.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<IOrderingService, OrderingService>(opt =>
+					opt.BaseAddress = orderUri)
 				.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 			services.AddHttpClient<ICouponService, CouponService>(opt =>

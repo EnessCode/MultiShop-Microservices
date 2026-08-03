@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Order.Application.Interfaces;
+using MultiShop.Order.Application.Interfaces.OrderingInterfaces;
 using MultiShop.Order.Application.Services;
 using MultiShop.Order.Persistence.Context;
 using MultiShop.Order.Persistence.Repositories;
+using MultiShop.Order.Persistence.Repositories.OrderingRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(IOrderingRepository), typeof(OrderingRepository));
 builder.Services.AddApplicationService(builder.Configuration);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
