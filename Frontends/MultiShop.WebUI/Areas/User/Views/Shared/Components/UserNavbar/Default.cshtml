@@ -1,30 +1,29 @@
-﻿<nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4 d-flex flex-row">
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+﻿<nav class="navbar col-lg-12 col-12 p-0 d-flex flex-row border-0" style="background: #1e293b !important; background-image: none !important; height: 70px !important; min-height: 70px !important; max-height: 70px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important; z-index: 1050;">
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end w-100" style="height: 100% !important; padding-top: 0 !important; padding-bottom: 0 !important; background-image: none !important;">
+
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
+            <span class="mdi mdi-menu" style="color: #ffffff !important;"></span>
         </button>
 
-        <div class="navbar-brand-wrapper">
-            <!-- MultiShop Logosu (Eğer kendi resmin varsa <img src="~/images/logo.png" /> şeklinde değiştirebilirsin) -->
-            <a class="navbar-brand brand-logo text-primary fw-bold" href="/Home/Index" style="font-size: 24px; font-weight: 900; letter-spacing: 1px;">
+        <div class="navbar-brand-wrapper d-flex align-items-center" style="height: 100% !important; background: transparent !important; background-image: none !important;">
+            <a class="navbar-brand brand-logo fw-bold mb-0 mt-0" href="/Home/Index" style="font-size: 24px; font-weight: 900; letter-spacing: 1px; color: #ffffff !important;">
                 MultiShop
             </a>
-            <a class="navbar-brand brand-logo-mini text-primary fw-bold" href="/Home/Index" style="font-size: 28px; font-weight: 900;">
+            <a class="navbar-brand brand-logo-mini fw-bold mb-0 mt-0" href="/Home/Index" style="font-size: 28px; font-weight: 900; color: #ffffff !important;">
                 M
             </a>
         </div>
 
-        <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Hoşgeldiniz</h4>
+        <ul class="navbar-nav navbar-nav-right h-100 align-items-center">
 
-        <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item">
-                <h4 class="mb-0 font-weight-bold d-none d-xl-block">@DateTime.Now.ToString("dd MMMM yyyy")</h4>
+            <li class="nav-item me-3">
+                <span class="mb-0 fw-bold d-none d-xl-block" style="font-size: 0.9rem; color: #cbd5e1 !important;">@DateTime.Now.ToString("dd MMMM yyyy")</span>
             </li>
 
-            <li class="nav-item nav-profile dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" alt="profile" style="width: 40px; height: 40px; object-fit: cover;" class="rounded-circle shadow-sm" />
-                    <span class="nav-profile-name ms-2">Hesabım</span>
+            <li class="nav-item nav-profile dropdown h-100 d-flex align-items-center">
+                <a class="nav-link dropdown-toggle d-flex align-items-center m-0" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" alt="profile" style="width: 38px; height: 38px; object-fit: cover;" class="rounded-circle border border-secondary" />
+                    <span class="nav-profile-name ms-2 fw-bold" style="color: #ffffff !important;">Hesabım</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a href="/User/Profile/Index" class="dropdown-item">
@@ -40,7 +39,7 @@
         </ul>
 
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
+            <span class="mdi mdi-menu" style="color: #ffffff !important;"></span>
         </button>
     </div>
 </nav>

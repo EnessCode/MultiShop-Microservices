@@ -4,10 +4,10 @@ namespace MultiShop.WebUI.Services.OrderServices.OrderAddressServices
 {
 	public interface IOrderAddressService
 	{
-		Task<List<ResultOrderAddressDto>> GetAllOrderAddressesAsync();
-		Task<UpdateOrderAddressDto> GetOrderAddressByIdAsync(string id);
-		Task CreateOrderAddressAsync(CreateOrderAddressDto createAddressDto);
-		Task UpdateOrderAddressAsync(UpdateOrderAddressDto updateAddressDto);
+		Task<List<ResultUserMessageDto>> GetAllOrderAddressesAsync();
+		Task<UpdateUserMessageDto> GetOrderAddressByIdAsync(string id);
+		Task CreateOrderAddressAsync(CreateUserMessageDtos createAddressDto);
+		Task UpdateOrderAddressAsync(UpdateUserMessageDto updateAddressDto);
 		Task DeleteOrderAddressAsync(string id);
 	}
 }

@@ -1,42 +1,88 @@
-﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
+﻿<nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: #1e293b !important; background-image: none !important; border-right: none;">
+    <ul class="nav pt-3">
         <li class="nav-item sidebar-category">
-            <p>Hesabım</p>
+            <p style="color: #64748b; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; margin-left: 25px; margin-bottom: 5px;">Hesabım</p>
             <span></span>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/User/Profile/Index">
                 <i class="mdi mdi-account-circle menu-icon"></i>
-                <span class="menu-title">Profil Bilgilerim</span>
+                <span class="menu-title fw-bold">Profil Bilgilerim</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/User/MyOrder/MyOrderList">
+            <a class="nav-link" href="/User/MyOrder/Index">
                 <i class="mdi mdi-shopping menu-icon"></i>
-                <span class="menu-title">Siparişlerim</span>
+                <span class="menu-title fw-bold">Siparişlerim</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/User/Address/Index">
-                <i class="mdi mdi-map-marker menu-icon"></i>
-                <span class="menu-title">Adreslerim</span>
+            <a class="nav-link" href="/User/Message/Inbox">
+                <i class="mdi mdi-email menu-icon"></i>
+                <span class="menu-title fw-bold">Gelen Kutusu</span>
             </a>
         </li>
-        <li class="nav-item sidebar-category">
-            <p>İşlemler</p>
+        <li class="nav-item">
+            <a class="nav-link" href="/User/Message/Sendbox">
+                <i class="mdi mdi-send menu-icon"></i>
+                <span class="menu-title fw-bold">Giden Kutusu</span>
+            </a>
+        </li>
+
+        <li class="nav-item sidebar-category mt-4">
+            <p style="color: #64748b; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; margin-left: 25px; margin-bottom: 5px;">İşlemler</p>
             <span></span>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/Home/Index">
-                <i class="mdi mdi-store menu-icon text-primary"></i>
-                <span class="menu-title">Mağazaya Dön</span>
+                <i class="mdi mdi-store menu-icon"></i>
+                <span class="menu-title fw-bold">Mağazaya Dön</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/Login/LogOut">
-                <i class="mdi mdi-logout menu-icon text-danger"></i>
-                <span class="menu-title text-danger">Çıkış Yap</span>
+            <a class="nav-link logout-link" href="/Login/LogOut">
+                <i class="mdi mdi-logout menu-icon"></i>
+                <span class="menu-title fw-bold">Çıkış Yap</span>
             </a>
         </li>
     </ul>
 </nav>
+
+<style>
+    #sidebar {
+        box-shadow: 4px 0 15px rgba(0,0,0,0.15) !important;
+        z-index: 1049;
+    }
+
+        #sidebar .nav-item .nav-link {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 2px 10px;
+            padding: 10px 15px;
+        }
+
+            #sidebar .nav-item .nav-link .menu-title,
+            #sidebar .nav-item .nav-link .menu-icon {
+                color: #cbd5e1 !important;
+                transition: all 0.3s ease;
+            }
+
+            #sidebar .nav-item .nav-link:hover {
+                background-color: rgba(255, 255, 255, 0.08) !important;
+                transform: translateX(4px);
+            }
+
+                #sidebar .nav-item .nav-link:hover .menu-title,
+                #sidebar .nav-item .nav-link:hover .menu-icon {
+                    color: #ffffff !important;
+                }
+
+        #sidebar .nav-item .logout-link .menu-title,
+        #sidebar .nav-item .logout-link .menu-icon {
+            color: #ef4444 !important;
+        }
+
+        #sidebar .nav-item .logout-link:hover {
+            background-color: rgba(239, 68, 68, 0.1) !important;
+        }
+</style>

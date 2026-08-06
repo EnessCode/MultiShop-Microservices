@@ -10,6 +10,7 @@
 		public ServerApi Cargo { get; set; }
 		public ServerApi Basket { get; set; }
 		public ServerApi Comment { get; set; }
+		public ServerApi Message { get; set; }
 	}
 
 	public class ServerApi

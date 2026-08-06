@@ -19,6 +19,7 @@ using MultiShop.WebUI.Services.CommentServices;
 using MultiShop.WebUI.Services.DiscountServices.CouponServices;
 using MultiShop.WebUI.Services.IdentityServices;
 using MultiShop.WebUI.Services.LoginServices;
+using MultiShop.WebUI.Services.MessageServices.UserMessageServices;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
 using MultiShop.WebUI.Services.OrderServices.OrderingServices;
 using MultiShop.WebUI.Services.UserServices;
@@ -88,6 +89,7 @@ namespace MultiShop.WebUI.Extensions
 			var commentUri = new Uri($"{values.OcelotUrl}/{values.Comment.Path}");
 			var discountUri = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
 			var orderUri = new Uri($"{values.OcelotUrl}/{values.Order.Path}");
+			var messageUri = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
 
 			services.AddHttpClient<IUserService, UserService>(opt =>
 					opt.BaseAddress = identityUri)
@@ -107,6 +109,10 @@ namespace MultiShop.WebUI.Extensions
 
 			services.AddHttpClient<IOrderAddressService, OrderAddressService>(opt =>
 				opt.BaseAddress = orderUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<IUserMessageService, UserMessageService>(opt =>
+				opt.BaseAddress = messageUri)
 			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 			services.AddHttpClient<ICategoryService, CategoryService>(opt => opt.BaseAddress = catalogUri)

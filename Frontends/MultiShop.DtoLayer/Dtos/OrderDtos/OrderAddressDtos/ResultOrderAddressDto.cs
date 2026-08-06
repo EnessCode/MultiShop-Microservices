@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.DtoLayer.Dtos.OrderDtos.OrderAddressDtos
 {
-	public class ResultOrderAddressDto
+	public class ResultUserMessageDto
 	{
 		public int Id { get; set; }
 		public string UserId { get; set; }

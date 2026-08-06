@@ -11,7 +11,7 @@ namespace MultiShop.WebUI.Services.OrderServices.OrderAddressServices
 			_httpClient = httpClient;
 		}
 
-		public async Task CreateOrderAddressAsync(CreateOrderAddressDto createAddressDto)
+		public async Task CreateOrderAddressAsync(CreateUserMessageDtos createAddressDto)
 		{
 			await _httpClient.PostAsJsonAsync("orderaddresses", createAddressDto);
 		}
@@ -21,21 +21,21 @@ namespace MultiShop.WebUI.Services.OrderServices.OrderAddressServices
 			await _httpClient.DeleteAsync("orderaddresses/" + id);
 		}
 
-		public async Task<UpdateOrderAddressDto> GetOrderAddressByIdAsync(string id)
+		public async Task<UpdateUserMessageDto> GetOrderAddressByIdAsync(string id)
 		{
 			var responseMessage = await _httpClient.GetAsync("orderaddresses/" + id);
-			var value = await responseMessage.Content.ReadFromJsonAsync<UpdateOrderAddressDto>();
+			var value = await responseMessage.Content.ReadFromJsonAsync<UpdateUserMessageDto>();
 			return value;
 		}
 
-		public async Task<List<ResultOrderAddressDto>> GetAllOrderAddressesAsync()
+		public async Task<List<ResultUserMessageDto>> GetAllOrderAddressesAsync()
 		{
 			var responseMessage = await _httpClient.GetAsync("orderaddresses");
-			var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultOrderAddressDto>>();
+			var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultUserMessageDto>>();
 			return values;
 		}
 
-		public async Task UpdateOrderAddressAsync(UpdateOrderAddressDto updateAddressDto)
+		public async Task UpdateOrderAddressAsync(UpdateUserMessageDto updateAddressDto)
 		{
 			await _httpClient.PutAsJsonAsync("orderaddresses", updateAddressDto);
 		}
