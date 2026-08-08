@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.WebUI.Services.MessageServices.UserMessageServices;
-using MultiShop.WebUI.Services.UserServices;
+using MultiShop.WebUI.Services.IdentityServices.UserServices;
 using System.Threading.Tasks;
 
 namespace MultiShop.WebUI.Areas.User.Controllers

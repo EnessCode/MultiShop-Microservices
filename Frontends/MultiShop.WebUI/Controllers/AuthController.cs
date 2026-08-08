@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.IdentityDtos.AuthDtos;
 using MultiShop.WebUI.Models;
-using MultiShop.WebUI.Services.IdentityServices;
+using MultiShop.WebUI.Services.IdentityServices.AuthServices;
 using MultiShop.WebUI.Services.LoginServices;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;

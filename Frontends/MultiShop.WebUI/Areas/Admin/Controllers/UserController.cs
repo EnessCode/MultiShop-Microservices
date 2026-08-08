@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.WebUI.Services.UserServices;
+using MultiShop.WebUI.Services.IdentityServices.UserServices;
 
-namespace MultiShop.WebUI.Controllers
+namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
+	[Area("Admin")]
 	public class UserController : Controller
 	{
 		private readonly IUserService _userService;
@@ -14,8 +15,8 @@ namespace MultiShop.WebUI.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var values = await _userService.GetUserInfoAsync();
-			return View();
+			var values = await _userService.GetAllUserListAsync();
+			return View(values);
 		}
 	}
 }

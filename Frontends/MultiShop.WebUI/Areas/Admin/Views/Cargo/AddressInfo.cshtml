@@ -1,0 +1,90 @@
+﻿@model GetCargoCustomerByIdDto
+
+@{
+    ViewData["Title"] = "Müşteri Adres Bilgileri";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h4 style="margin: 0;">Müşteri Kargo & Adres Detayları</h4>
+                        <p style="color: #5e6e82; font-size: 14px; margin: 5px 0 0 0;">
+                            İlgili kullanıcıya ait kayıtlı teslimat bilgilerini aşağıdan inceleyebilirsiniz.
+                        </p>
+                    </div>
+
+                    <a href="/Admin/User/Index" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> Kullanıcı Listesine Dön
+                    </a>
+                </div>
+
+                <hr />
+
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ad</label>
+                                <input type="text" class="form-control" value="@Model.Name" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Soyad</label>
+                                <input type="text" class="form-control" value="@Model.Surname" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>E-Posta</label>
+                                <input type="email" class="form-control" value="@Model.Email" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Telefon</label>
+                                <input type="text" class="form-control" value="@Model.Phone" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Şehir</label>
+                                <input type="text" class="form-control" value="@Model.City" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>İlçe</label>
+                                <input type="text" class="form-control" value="@Model.District" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Açık Adres</label>
+                        <textarea class="form-control" rows="4" readonly>@Model.Address</textarea>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        <i class="fa fa-exclamation-triangle" style="margin-right: 5px;"></i>
+                        <strong>Bilgi:</strong> Bu kullanıcıya ait henüz kayıtlı bir adres bilgisi bulunamadı.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

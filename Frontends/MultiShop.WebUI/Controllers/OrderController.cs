@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.OrderDtos.OrderAddressDtos;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
-using MultiShop.WebUI.Services.UserServices;
+using MultiShop.WebUI.Services.IdentityServices.UserServices;
 
 namespace MultiShop.WebUI.Controllers
 {

@@ -1,0 +1,73 @@
+﻿@model List<ResultUserDto>
+
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+    int count = 0;
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">
+                        Sisteme kayıtlı tüm yöneticileri ve kullanıcıları buradan görüntüleyebilirsiniz.
+                    </p>
+
+                    <a href="/Admin/User/CreateUser" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Yeni Kullanıcı Ekle
+                    </a>
+                </div>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="alert alert-info" role="alert" style="border-radius: 6px; border-left: 4px solid #b8daff; background-color: #e8f4fd; color: #0056b3; font-size: 13px; margin-bottom: 20px; padding: 10px 15px;">
+                        <i class="fa fa-info-circle" style="font-size: 14px; margin-right: 5px;"></i>
+                        <strong>Sistem Notu:</strong> Kullanıcı şifreleri güvenlik gereği listelenmez.
+                    </div>
+
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered table-striped" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px; text-align: center;">#</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>E-Posta</th>
+                                    <th style="width: 150px; text-align: center;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row" style="text-align: center; vertical-align: middle;">@count</th>
+                                        <td style="font-weight: 600; color: #333; vertical-align: middle;">
+                                            @item.Name @item.Surname
+                                        </td>
+                                        <td style="vertical-align: middle;">@item.UserName</td>
+                                        <td style="vertical-align: middle;">@item.Email</td>
+                                        <td style="vertical-align: middle; text-align: center;">
+                                            <a href="/Admin/Cargo/AddressInfo/@item.Id" class="btn btn-info btn-sm" style="color: #fff;" title="Adres Detayını Gör">
+                                                <i class="fa fa-map-marker"></i> Adres Detayı
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 8px; margin-bottom: 0;">
+                        Sistemde henüz kayıtlı bir kullanıcı bulunmuyor. Eklemek için sağ üstteki butonu kullanabilirsiniz.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

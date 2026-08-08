@@ -34,6 +34,13 @@ namespace MultiShop.Cargo.WebApi.Controllers
 			return Ok(value);
 		}
 
+		[HttpGet("user/{id}")]
+		public IActionResult GetCargoCustomerByUserCustomerId(string id)
+		{
+			var value = _cargoCustomerService.GetByUserCargoCustomerId(id);
+			return Ok(value);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateCargoCustomer(CreateCargoCustomerDto createCargoCustomerDto)
 		{
@@ -45,7 +52,8 @@ namespace MultiShop.Cargo.WebApi.Controllers
 				Phone = createCargoCustomerDto.Phone,
 				Address = createCargoCustomerDto.Address,
 				City = createCargoCustomerDto.City,
-				District = createCargoCustomerDto.District
+				District = createCargoCustomerDto.District,
+				UserCustomerId = createCargoCustomerDto.UserCustomerId
 			};
 
 			await _cargoCustomerService.TInsertAsync(cargoCustomer);
@@ -71,7 +79,8 @@ namespace MultiShop.Cargo.WebApi.Controllers
 				Phone = updateCargoCustomerDto.Phone,
 				Address = updateCargoCustomerDto.Address,
 				City = updateCargoCustomerDto.City,
-				District = updateCargoCustomerDto.District
+				District = updateCargoCustomerDto.District,
+				UserCustomerId = updateCargoCustomerDto.UserCustomerId
 			};
 
 			_cargoCustomerService.TUpdate(cargoCustomer);

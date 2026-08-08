@@ -1,6 +1,6 @@
 ﻿using MultiShop.DtoLayer.Dtos.IdentityDtos.AuthDtos;
 
-namespace MultiShop.WebUI.Services.IdentityServices
+namespace MultiShop.WebUI.Services.IdentityServices.AuthServices
 {
 	public interface IIdentityService
 	{

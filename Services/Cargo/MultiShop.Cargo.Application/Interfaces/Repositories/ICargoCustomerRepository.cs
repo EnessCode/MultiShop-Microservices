@@ -9,5 +9,6 @@ namespace MultiShop.Cargo.Application.Interfaces.Repositories
 {
 	public interface ICargoCustomerRepository : IGenericRepository<CargoCustomer>
 	{
+		CargoCustomer GetByUserCargoCustomerId(string id);
 	}
 }

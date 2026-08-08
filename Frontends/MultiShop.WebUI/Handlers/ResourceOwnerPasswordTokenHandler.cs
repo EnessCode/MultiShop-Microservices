@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using MultiShop.WebUI.Services.IdentityServices;
+using MultiShop.WebUI.Services.IdentityServices.AuthServices;
 using System.Net;
 using System.Net.Http.Headers;
 

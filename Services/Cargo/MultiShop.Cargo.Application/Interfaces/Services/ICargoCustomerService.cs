@@ -9,5 +9,6 @@ namespace MultiShop.Cargo.Application.Interfaces.Services
 {
 	public interface ICargoCustomerService : IGenericService<CargoCustomer>
 	{
+		CargoCustomer GetByUserCargoCustomerId(string id);
 	}
 }

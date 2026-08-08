@@ -1,0 +1,27 @@
+﻿@model CreateCargoCompanyDto
+
+@{
+    ViewData["Title"] = "Yeni Kargo Firması Ekle";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Kargo Firması Ekle</h4>
+                <p>Yeni kargo firması bilgilerini aşağıdan girebilirsiniz.</p>
+                <hr />
+
+                <form method="post" asp-action="CreateCargoCompany" asp-controller="Cargo" asp-area="Admin">
+                    <div class="form-group">
+                        <label for="CargoCompanyName">Kargo Firması Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" id="CargoCompanyName" placeholder="Firma adını giriniz" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Kaydet</button>
+                    <a href="/Admin/Cargo/Index" class="btn btn-secondary"><i class="fa fa-times"></i> İptal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

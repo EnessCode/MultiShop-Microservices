@@ -17,5 +17,10 @@ namespace MultiShop.Cargo.Application.Services.Concrete
 		{
 			_cargoCustomerRepository = cargoCustomerRepository;
 		}
+
+		public CargoCustomer GetByUserCargoCustomerId(string id)
+		{
+			return _cargoCustomerRepository.GetByUserCargoCustomerId(id);
+		}
 	}
 }

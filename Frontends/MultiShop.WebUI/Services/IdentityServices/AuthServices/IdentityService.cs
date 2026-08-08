@@ -7,7 +7,7 @@ using MultiShop.DtoLayer.Dtos.IdentityDtos.AuthDtos;
 using MultiShop.WebUI.Settings;
 using System.Security.Claims;
 
-namespace MultiShop.WebUI.Services.IdentityServices
+namespace MultiShop.WebUI.Services.IdentityServices.AuthServices
 {
 	public class IdentityService : IIdentityService
 	{

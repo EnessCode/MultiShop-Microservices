@@ -1,0 +1,29 @@
+﻿@model UpdateCargoCompanyDto
+
+@{
+    ViewData["Title"] = "Kargo Firması Güncelle";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Kargo Firması Güncelle</h4>
+                <p>Kargo firması bilgilerini aşağıdan düzenleyebilirsiniz.</p>
+                <hr />
+
+                <form method="post" asp-action="UpdateCargoCompany" asp-controller="Cargo" asp-area="Admin">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group">
+                        <label for="CargoCompanyName">Kargo Firması Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" id="CargoCompanyName" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Değişiklikleri Kaydet</button>
+                    <a href="/Admin/Cargo/Index" class="btn btn-secondary"><i class="fa fa-times"></i> İptal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
