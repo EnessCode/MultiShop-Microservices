@@ -4,7 +4,7 @@ using MultiShop.Message.DataAccess.Context;
 using MultiShop.Message.DataAccess.Entities;
 using MultiShop.Message.Dtos.UserMessageDtos;
 
-namespace MultiShop.Message.Services
+namespace MultiShop.Message.MessageServices
 {
 	public class UserMessageService : IUserMessageService
 	{

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Message.Dtos.UserMessageDtos;
-using MultiShop.Message.Services;
+using MultiShop.Message.MessageServices;
 
 namespace MultiShop.Message.Controllers
 {

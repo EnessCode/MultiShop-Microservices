@@ -25,6 +25,10 @@ using MultiShop.WebUI.Services.LoginServices;
 using MultiShop.WebUI.Services.MessageServices.UserMessageServices;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
 using MultiShop.WebUI.Services.OrderServices.OrderingServices;
+using MultiShop.WebUI.Services.StatisticServices.CatalogStatisticServices;
+using MultiShop.WebUI.Services.StatisticServices.CommentStatisticServices;
+using MultiShop.WebUI.Services.StatisticServices.DiscountStatisticServices;
+using MultiShop.WebUI.Services.StatisticServices.UserStatisticServices;
 using MultiShop.WebUI.Settings;
 
 namespace MultiShop.WebUI.Extensions
@@ -124,6 +128,22 @@ namespace MultiShop.WebUI.Extensions
 
 			services.AddHttpClient<ICargoCustomerService, CargoCustomerService>(opt =>
 				opt.BaseAddress = cargoUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<ICatalogStatisticService, CatalogStatisticService>(opt =>
+				opt.BaseAddress = catalogUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<IUserStatisticService, UserStatisticService>(opt =>
+				opt.BaseAddress = identityUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<ICommentStatisticService, CommentStatisticService>(opt =>
+				opt.BaseAddress = commentUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<IDiscountStatisticService, DiscountStatisticService>(opt =>
+				opt.BaseAddress = discountUri)
 			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 			services.AddHttpClient<ICategoryService, CategoryService>(opt => opt.BaseAddress = catalogUri)

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Message.DataAccess.Context;
-using MultiShop.Message.Services;
+using MultiShop.Message.MessageServices;
+using MultiShop.Message.Services.StatisticServices;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 }); builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IUserMessageService, UserMessageService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 builder.Services.AddDbContext<MessageContext>(opt =>
 {

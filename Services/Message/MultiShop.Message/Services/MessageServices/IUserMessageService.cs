@@ -1,6 +1,6 @@
 ﻿using MultiShop.Message.Dtos.UserMessageDtos;
 
-namespace MultiShop.Message.Services
+namespace MultiShop.Message.MessageServices
 {
 	public interface IUserMessageService
 	{

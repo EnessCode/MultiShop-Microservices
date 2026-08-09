@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Comment.Context;
 using MultiShop.Comment.Services.CommentServices;
+using MultiShop.Comment.Services.StatisticServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 builder.Services.AddDbContext<CommentContext>(options =>
 {

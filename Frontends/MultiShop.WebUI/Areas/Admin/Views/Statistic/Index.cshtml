@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "Sistem İstatistikleri";
+}
+
+<section class="content container-fluid" style="padding: 0;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: #5e6e82; font-size: 14px; margin: 0;">
+                        Sitenizin genel durumunu, katalog, kullanıcı, yorum ve kampanya özet bilgilerini bu alandan anlık olarak takip edebilirsiniz.
+                    </p>
+                    <a href="/Admin/Statistic/Index" class="btn btn-primary btn-sm">
+                        <i class="fa fa-refresh"></i> Verileri Yenile
+                    </a>
+                </div>
+
+                <!-- 
+                     Katalog İstatistikleri
+                -->
+                <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Katalog İstatistikleri</h6>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #007bff;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Kategori Sayısı</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.CategoryCount</h3>
+                            </div>
+                            <i class="fa fa-list" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(0,123,255,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #28a745;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Ürün Sayısı</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.ProductCount</h3>
+                            </div>
+                            <i class="fa fa-shopping-cart" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(40,167,69,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #17a2b8;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Marka Sayısı</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.BrandCount</h3>
+                            </div>
+                            <i class="fa fa-tags" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(23,162,184,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #ffc107;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Ortalama Ürün Fiyatı</p>
+                                <h3 style="color: #333; font-size: 22px; font-weight: bold; margin: 0;">@Math.Round((decimal)ViewBag.ProductAveragePrice, 2) ₺</h3>
+                            </div>
+                            <i class="fa fa-calculator" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(255,193,7,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #dc3545;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">En Pahalı Ürün</p>
+                                <h3 style="color: #333; font-size: 18px; font-weight: bold; margin: 0; padding-top: 5px;">@ViewBag.MaxPriceProductName</h3>
+                            </div>
+                            <i class="fa fa-arrow-up" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(220,53,69,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #6c757d;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">En Ucuz Ürün</p>
+                                <h3 style="color: #333; font-size: 18px; font-weight: bold; margin: 0; padding-top: 5px;">@ViewBag.MinPriceProductName</h3>
+                            </div>
+                            <i class="fa fa-arrow-down" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(108,117,125,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 
+                     Yorum İstatistikleri
+                -->
+                <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Yorum İstatistikleri</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #007bff;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Toplam Yorum</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.TotalCommentCount</h3>
+                            </div>
+                            <i class="fa fa-comments" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(0,123,255,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #28a745;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Onaylı Yorumlar</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.ActiveCommentCount</h3>
+                            </div>
+                            <i class="fa fa-check-circle" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(40,167,69,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #ffc107;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Bekleyen Yorumlar</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.PassiveCommentCount</h3>
+                            </div>
+                            <i class="fa fa-clock-o" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(255,193,7,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 
+                     İndirim/Kupon İstatistikleri
+                -->
+                <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">İndirim/Kupon İstatistikleri</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #17a2b8;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Toplam Kupon</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.TotalCouponCount</h3>
+                            </div>
+                            <i class="fa fa-ticket" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(23,162,184,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #28a745;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Aktif Kuponlar</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.ActiveCouponCount</h3>
+                            </div>
+                            <i class="fa fa-gift" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(40,167,69,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #dc3545;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Pasif Kuponlar</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.PassiveCouponCount</h3>
+                            </div>
+                            <i class="fa fa-times-circle" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(220,53,69,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                     Kullanıcı İstatistikleri
+                -->
+                <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Kullanıcı İstatistikleri</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #343a40;">
+                            <div style="position: relative; z-index: 2;">
+                                <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Kayıtlı Kullanıcı</p>
+                                <h3 style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">@ViewBag.UserCount</h3>
+                            </div>
+                            <i class="fa fa-users" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(52,58,64,0.15); z-index: 1;"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
