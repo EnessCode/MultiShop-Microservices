@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Canlı İstatistikler";
+}
+
+<div class="content">
+    <br />
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-box">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
+                        <p style="color: #5e6e82; font-size: 14px; margin: 0;">
+                            Bu sayfadaki veriler <strong>SignalR</strong> teknolojisi kullanılarak sayfa yenilenmeden <span class="badge badge-success">Anlık (Real-Time)</span> olarak güncellenmektedir.
+                        </p>
+                        <div style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
+                            <i class="fa fa-wifi"></i> Bağlantı Durumu: <span id="connection-status" class="text-warning">Bağlanıyor...</span>
+                        </div>
+                    </div>
+
+                    <!-- 
+                         1. GRUP: Katalog İstatistikleri
+                    -->
+                    <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Katalog İstatistikleri</h6>
+
+                    <div class="row">
+                        <!-- Kategori Sayısı -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #007bff;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Kategori Sayısı</p>
+                                    <h3 id="categoryCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-list" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(0,123,255,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Ürün Sayısı -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #28a745;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Ürün Sayısı</p>
+                                    <h3 id="productCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-shopping-cart" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(40,167,69,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Marka Sayısı -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #17a2b8;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Marka Sayısı</p>
+                                    <h3 id="brandCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-tags" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(23,162,184,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 
+                         2. GRUP: Kullanıcı & Fiyat İstatistikleri
+                    -->
+                    <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Sistem & Finans</h6>
+                    <div class="row">
+                        <!-- Kayıtlı Kullanıcı -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #343a40;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Kayıtlı Kullanıcı</p>
+                                    <h3 id="userCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-users" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(52,58,64,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Ortalama Ürün Fiyatı -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #ffc107;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Ortalama Ürün Fiyatı</p>
+                                    <h3 id="productAvgPrice" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0 ₺</h3>
+                                </div>
+                                <i class="fa fa-calculator" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(255,193,7,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Bekleyen Yorumlar -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #dc3545;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Bekleyen Yorumlar</p>
+                                    <h3 id="passiveCommentCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-clock-o" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(220,53,69,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 
+                         3. GRUP: İndirim/Kupon İstatistikleri
+                    -->
+                    <h6 style="color: #333; font-weight: bold; margin-bottom: 15px; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">İndirim/Kupon İstatistikleri</h6>
+                    <div class="row">
+                        <!-- Toplam Kupon -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #17a2b8;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Toplam Kupon</p>
+                                    <h3 id="totalCouponCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-ticket" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(23,162,184,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Aktif Kupon -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #28a745;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Aktif Kuponlar</p>
+                                    <h3 id="activeCouponCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-gift" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(40,167,69,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Pasif Kupon -->
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; position: relative; margin-bottom: 20px; border-bottom: 4px solid #dc3545;">
+                                <div style="position: relative; z-index: 2;">
+                                    <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">Pasif Kuponlar</p>
+                                    <h3 id="passiveCouponCount" style="color: #333; font-size: 26px; font-weight: bold; margin: 0;">0</h3>
+                                </div>
+                                <i class="fa fa-times-circle" style="position: absolute; right: 25px; bottom: 20px; font-size: 45px; color: rgba(220,53,69,0.15); z-index: 1;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7276/signalr")
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            const statusElement = document.getElementById("connection-status");
+
+            connection.on("ReceiveCategoryCount", function (value) { document.getElementById("categoryCount").innerText = value; });
+            connection.on("ReceiveProductCount", function (value) { document.getElementById("productCount").innerText = value; });
+            connection.on("ReceiveBrandCount", function (value) { document.getElementById("brandCount").innerText = value; });
+            connection.on("ReceiveProductAvgPrice", function (value) { document.getElementById("productAvgPrice").innerText = value + " ₺"; });
+
+            connection.on("ReceiveUserCount", function (value) { document.getElementById("userCount").innerText = value; });
+
+            connection.on("ReceiveCommentNotification", function (value) { document.getElementById("passiveCommentCount").innerText = value; });
+
+            connection.on("ReceiveTotalCouponCount", function (value) { document.getElementById("totalCouponCount").innerText = value; });
+            connection.on("ReceiveActiveCouponCount", function (value) { document.getElementById("activeCouponCount").innerText = value; });
+            connection.on("ReceivePassiveCouponCount", function (value) { document.getElementById("passiveCouponCount").innerText = value; });
+
+            connection.start().then(function () {
+                console.log("SignalR bağlantısı başarıyla sağlandı.");
+                statusElement.innerText = "Bağlandı";
+                statusElement.className = "text-success font-weight-bold";
+
+                invokeAllStatistics(connection);
+
+                setInterval(function() {
+                    invokeAllStatistics(connection);
+                }, 5000);
+
+            }).catch(function (err) {
+                console.error("SignalR Bağlantı Hatası: ", err.toString());
+                statusElement.innerText = "Bağlantı Hatası";
+                statusElement.className = "text-danger font-weight-bold";
+            });
+
+            function invokeAllStatistics(conn) {
+                conn.invoke("SendCatalogStatistics").catch(err => console.error(err.toString()));
+                conn.invoke("SendDiscountStatistics").catch(err => console.error(err.toString()));
+                conn.invoke("SendUserStatistics").catch(err => console.error(err.toString()));
+                conn.invoke("SendCommentNotification", "ornek-user-id").catch(err => console.error(err.toString()));
+
+                conn.invoke("SendMessageNotification", "ornek-receiver-id").catch(err => console.error(err.toString()));
+            }
+
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Message.Services.StatisticServices;
 
@@ -33,6 +34,13 @@ namespace MultiShop.Message.Controllers
 		public async Task<IActionResult> GetReadMessageCount()
 		{
 			var value = await _statisticService.GetReadMessageCountAsync();
+			return Ok(value);
+		}
+
+		[HttpGet("total-message-count-by-receiver/{id}")]
+		public async Task<IActionResult> GetTotalMessageCountByReceiverId(string id)
+		{
+			var value = await _statisticService.GetTotalMessageCountByReceiverIdAsync(id);
 			return Ok(value);
 		}
 	}

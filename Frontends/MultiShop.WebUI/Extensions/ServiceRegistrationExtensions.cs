@@ -28,6 +28,7 @@ using MultiShop.WebUI.Services.OrderServices.OrderingServices;
 using MultiShop.WebUI.Services.StatisticServices.CatalogStatisticServices;
 using MultiShop.WebUI.Services.StatisticServices.CommentStatisticServices;
 using MultiShop.WebUI.Services.StatisticServices.DiscountStatisticServices;
+using MultiShop.WebUI.Services.StatisticServices.MessageStatisticServices;
 using MultiShop.WebUI.Services.StatisticServices.UserStatisticServices;
 using MultiShop.WebUI.Settings;
 
@@ -144,6 +145,10 @@ namespace MultiShop.WebUI.Extensions
 
 			services.AddHttpClient<IDiscountStatisticService, DiscountStatisticService>(opt =>
 				opt.BaseAddress = discountUri)
+			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+			services.AddHttpClient<IMessageStatisticService, MessageStatisticService>(opt =>
+				opt.BaseAddress = messageUri)
 			.AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 			services.AddHttpClient<ICategoryService, CategoryService>(opt => opt.BaseAddress = catalogUri)

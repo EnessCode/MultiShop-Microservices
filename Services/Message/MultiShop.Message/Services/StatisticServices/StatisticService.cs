@@ -26,5 +26,10 @@ namespace MultiShop.Message.Services.StatisticServices
 		{
 			return await _context.UserMessages.CountAsync(x => x.IsRead == true);
 		}
+
+		public async Task<int> GetTotalMessageCountByReceiverIdAsync(string id)
+		{
+			return await _context.UserMessages.CountAsync(x => x.ReceiverId == id);
+		}
 	}
 }

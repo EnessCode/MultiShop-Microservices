@@ -1,6 +1,6 @@
-﻿namespace MultiShop.Message.Services.StatisticServices
+﻿namespace MultiShop.WebUI.Services.StatisticServices.MessageStatisticServices
 {
-	public interface IStatisticService
+	public interface IMessageStatisticService
 	{
 		Task<int> GetTotalMessageCountAsync();
 		Task<int> GetUnreadMessageCountAsync();
